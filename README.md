@@ -27,12 +27,12 @@ FRCA may also be used even if Joomla! is not installed, acting as a "_Pre~Instal
   
 #### Supported Environments & Resources
   
-| Resource        |        |           |         |          |
-|:----------------|:------:|:---------:|:-------:|:--------:|
-| **Joomla\!**    | 2.5.x  |   3.x.x   |  4.x.x  |    \-    |
-| **PHP**         | 5.4.x  |   7.x.x   |  8.x.x  |    \-    |
-| **Databases**   | MySQL  |  MySQLi   | MariaDB | postGres |
-| **Web Servers** | Apache | LiteSpeed |  nginx  |   IIS    |
+| Resource        |        |           |            |          |
+|:----------------|:------:|:---------:|:----------:|:--------:|
+| **Joomla\!**    | 2.5.x  |   3.x.x   |  4.x.x     |    \-    |
+| **PHP**         | 5.4.x  |   7.x.x   |  8.x.x     |    \-    |
+| **Databases**   | MySQL  |  MariaDB  | PostgreSQL |    \-    |
+| **Web Servers** | Apache | LiteSpeed |  nginx     |   IIS    |
   
 _**Note:** The Fishikawa Project & FRCA script **do not support** Joomla! 1.0.x, 1.5.x, 1.6.x or 1.7.x or PHP 5.3.x or below but the script may still work, be aware though your mileage and accuracy of results may vary. Any support requests for these environments will go unanswered and be closed immediately._
   
