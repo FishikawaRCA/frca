@@ -5,14 +5,14 @@
 // @frostmakk 24.01.2021
 // Many sites don't have libraries or site components, resulting in errors when the expected arrays are empty.
 // This is just a primitive workaround. Feel free to improve the code.
-if (!is_array(@$component['ADMIN'])) {$component['ADMIN'] = array(' ',' ');}
-if (!is_array(@$component['SITE'])) {$component['SITE'] = array(' ',' ');}
-if (!is_array(@$module['SITE'])) {$module['SITE'] = array(' ',' ');}
-if (!is_array(@$module['ADMIN'])) {$module['ADMIN'] = array(' ',' ');}
-if (!is_array(@$plugin['SITE'])) {$plugin['SITE'] = array(' ',' ');}
-if (!is_array(@$library['SITE'])) {$library['SITE'] = array(' ',' ');}
-if (!is_array(@$template['SITE'])) {$template['SITE'] = array(' ',' ');}
-if (!is_array(@$template['ADMIN'])) {$template['ADMIN'] = array(' ',' ');}
+if (!is_array(@$component['ADMIN'])) {$component['ADMIN'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$component['SITE'])) {$component['SITE'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$module['SITE'])) {$module['SITE'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$module['ADMIN'])) {$module['ADMIN'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$plugin['SITE'])) {$plugin['SITE'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$library['SITE'])) {$library['SITE'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$template['SITE'])) {$template['SITE'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
+if (!is_array(@$template['ADMIN'])) {$template['ADMIN'] = array("dummy"=> array("name"=>"0","author"=>"0","authorUrl"=>"0","version"=>"0","creationDate"=>"0","type"=>"0"));}
 
 
                                                   
