@@ -4023,10 +4023,12 @@ function recursive_array_search($needle, $haystack)
 				background-color: #593196 !important;
 			}
 
+			.border-frca,
 			.border-frca-dark {
-				border-color: #224872 !important;
+				border-color: #593196 !important;
 			}
 
+			.text-frca,
 			.text-frca-dark {
 				color: #593196;
 			}
@@ -4747,8 +4749,8 @@ function recursive_array_search($needle, $haystack)
 						<div class="row">
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">frca Configuration</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">frca Configuration</h6>
 
 									Debug Mode: <span class="float-right"><?php echo defined('_FRCA_DBG') ? '<span class="text-success">'. $lang['FRCA_ENA'] .'</span>' : $lang['FRCA_DIS']; ?></span><br />
 
@@ -4797,8 +4799,8 @@ function recursive_array_search($needle, $haystack)
 							</div>
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">session Data</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">session Data</h6>
 									<?php
 										if ( isset($_SESSION) ) {
 
@@ -4834,8 +4836,8 @@ function recursive_array_search($needle, $haystack)
 							</div>
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">pdadata Retrieval</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">pdadata Retrieval</h6>
 									<?php
 										echo @$pdadevMSG;
 									?>
@@ -4844,8 +4846,8 @@ function recursive_array_search($needle, $haystack)
 							</div>
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">veldata Retrieval</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">veldata Retrieval</h6>
 									<?php
 										echo @$veldevMSG;
 									?>
@@ -4854,8 +4856,8 @@ function recursive_array_search($needle, $haystack)
 							</div>
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">translation Retrieval</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">translation Retrieval</h6>
 									<?php
 										echo @$langdevMSG;
 									?>
@@ -4874,8 +4876,8 @@ function recursive_array_search($needle, $haystack)
 									}
 								?>
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">untranslated Strings <span class="badge badge-pill badge-primary"><?php echo $untranslatedCount; ?></span></h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">untranslated Strings <span class="badge badge-pill badge-primary"><?php echo $untranslatedCount; ?></span></h6>
 
 									<?php if ( $untranslatedCount > '0' ) { ?>
 										<div class="mt-1" style="overflow:auto;max-height:200px;">
@@ -4901,8 +4903,8 @@ function recursive_array_search($needle, $haystack)
 
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">latestfrca Retrieval</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">latestfrca Retrieval</h6>
 									<?php
 										echo @$frcadevMSG;
 									?>
@@ -4911,8 +4913,8 @@ function recursive_array_search($needle, $haystack)
 							</div>
 							<div class="col-sm-6 col-lg-3 d-flex align-items-stretch mb-2">
 
-								<div class="alert bg-white text-dark border border-primary shadow flex-fill">
-									<h6 class="text-primary m-0 p-0">latestjoomla Retrieval</h6>
+								<div class="alert bg-white text-dark border border-frca shadow flex-fill">
+									<h6 class="text-frca m-0 p-0">latestjoomla Retrieval</h6>
 									<?php
 										echo @$joomladevMSG;
 									?>
@@ -6330,8 +6332,8 @@ echo '</pre><hr>';
 						<div class="row collapse" id="showconfidenceDEV">
 							<div class="col-xs-12 col-sm-6 col-xl-3">
 
-									<div class="alert bg-white text-dark border border-primary shadow w-100">
-										<h6 class="text-primary m-0 p-0">Server Confidence</h6>
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Server Confidence</h6>
 										Items:<span class="float-right">[<?php echo count($confidence['SERVER']); ?>]</span><br />
 										Weighted Value:<span class="float-right">[<?php echo $countConfidenceSERVER; ?>]</span><br />
 										Actual Score:<span class="float-right">[<?php echo number_format( array_sum($confidence['SERVER']) / $countConfidenceSERVER, 5 ); ?>]</span><br />
@@ -6346,8 +6348,8 @@ echo '</pre><hr>';
 							</div>
 							<div class="col-xs-12 col-sm-6 col-xl-3">
 
-									<div class="alert bg-white text-dark border border-primary shadow w-100">
-										<h6 class="text-primary m-0 p-0">PHP Confidence</h6>
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">PHP Confidence</h6>
 										Items:<span class="float-right">[<?php echo count($confidence['PHP']); ?>]</span><br />
 										Weighted Value:<span class="float-right">[<?php echo $countConfidencePHP; ?>]</span><br />
 										Actual Score:<span class="float-right">[<?php echo number_format( array_sum($confidence['PHP']) / $countConfidencePHP, 5 ); ?>]</span><br />
@@ -6362,8 +6364,8 @@ echo '</pre><hr>';
 							</div>
 							<div class="col-xs-12 col-sm-6 col-xl-3">
 
-									<div class="alert bg-white text-dark border border-primary shadow w-100">
-										<h6 class="text-primary m-0 p-0">Joomla Confidence</h6>
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Joomla Confidence</h6>
 										<?php if ( $instance['instanceFOUND'] == 1 ) { ?>
 											Items:<span class="float-right">[<?php echo count($confidence['JOOMLA']); ?>]</span><br />
 											Weighted Value:<span class="float-right">[<?php echo $countConfidenceJOOMLA; ?>]</span><br />
@@ -6382,8 +6384,8 @@ echo '</pre><hr>';
 							</div>
 							<div class="col-xs-12 col-sm-6 col-xl-3">
 
-									<div class="alert bg-white text-dark border border-primary shadow w-100">
-										<h6 class="text-primary m-0 p-0">Aggregate Confidence</h6>
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Aggregate Confidence</h6>
 										Combined Score:<span class="float-right">[<?php echo number_format( $confidenceScoreAGGREGATE, 5 ); ?>]</span><br />
 										Rounded Score:<span class="float-right">[<?php echo round( $confidenceScoreAGGREGATE, 1 ); ?>]</span><br />
 									</div>
@@ -6731,6 +6733,65 @@ getPDC( '1', '0052' );
 						</li>
 
 					</ul><!--/problemCategory nav-tabs-->
+
+
+
+					<?php if ( defined('_FRCA_DEV' )) { ?>
+						<button class="btn btn-frca btn-sm mb-3" type="button" data-toggle="collapse" data-target="#showimpactDEV" aria-expanded="false" aria-controls="showimpactDEV">
+							<i class="fab fa-dev fa-fw fa-lg"></i> <?php echo $lang['FRCA_DEVMI']; ?>
+						</button>
+						<div class="row collapse" id="showimpactDEV">
+							<div class="col-xs-12 col-sm-6 1col-xl-3">
+
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Critical Items</h6>
+										<?php
+											echo '<pre class="xsmall" style="height:280px;">';
+											var_dump( $problemList['CRITICAL']);
+											echo '</pre>';
+										?>
+									</div>
+
+							</div>
+							<div class="col-xs-6 col-sm-6 1col-xl-3">
+
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Moderate Items</h6>
+										<?php
+											echo '<pre class="xsmall" style="height:280px;">';
+											var_dump( $problemList['MODERATE']);
+											echo '</pre>';
+										?>
+									</div>
+
+							</div>
+							<div class="col-xs-12 col-sm-6 1col-xl-3">
+
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Minor Items</h6>
+										<?php
+											echo '<pre class="xsmall" style="height:280px;">';
+											var_dump( $problemList['MINOR']);
+											echo '</pre>';
+										?>
+									</div>
+
+							</div>
+							<div class="col-xs-12 col-sm-6 1col-xl-3">
+
+									<div class="alert bg-white text-dark border border-frca shadow w-100">
+										<h6 class="text-frca m-0 p-0">Best Practice Items</h6>
+										<?php
+											echo '<pre class="xsmall" style="height:280px;">';
+											var_dump( $problemList['BESTPRACTICE']);
+											echo '</pre>';
+										?>
+									</div>
+
+							</div>
+						</div>
+					<?php } //developr-mode ?>
+
 
 
 
