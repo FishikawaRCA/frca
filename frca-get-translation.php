@@ -44,6 +44,7 @@
 									  CURLOPT_TIMEOUT => 5,
 									  CURLOPT_CONNECTTIMEOUT => 5,
 									  CURLOPT_RETURNTRANSFER => true,
+									  CURLOPT_SSL_VERIFYPEER => false,                                      
 									  CURLOPT_HTTPHEADER => array('Content-type: text/html'),
 									);
 		curl_setopt_array( $ch, $langcURLOPT );
