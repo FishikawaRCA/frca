@@ -43,6 +43,7 @@
 									  CURLOPT_TIMEOUT => 5,
 									  CURLOPT_CONNECTTIMEOUT => 5,
 									  CURLOPT_RETURNTRANSFER => true,
+									  CURLOPT_SSL_VERIFYPEER => false,							 
 									  CURLOPT_HTTPHEADER => array('Content-type: application/json'),
 									);
 		curl_setopt_array( $ch, $velcURLOPT );
