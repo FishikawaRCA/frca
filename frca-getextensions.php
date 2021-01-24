@@ -89,9 +89,9 @@
 									or strtolower($name[1]) == 'atum'
 									or strtolower(substr($name[1], 0, 4)) == 'beez'
 								) {
-									$arrname[$loc][$cDir]['type'] = $lang['RCA_EXT_CORE'];
+									$arrname[$loc][$cDir]['type'] = $lang['FRCA_EXT_CORE'];
 								} else {
-									$arrname[$loc][$cDir]['type'] = $lang['RCA_EXT_3PD'];
+									$arrname[$loc][$cDir]['type'] = $lang['FRCA_EXT_3PD'];
 								}
 							} else {
 								$arrname[$loc][$cDir]['author']     = '-';
