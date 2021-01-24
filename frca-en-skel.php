@@ -1236,6 +1236,13 @@ $lang = parse_ini_string ('
 	FRCA_EXT_CORE = "Core"    
 	FRCA_EXT_3PD = "3rd Party"        
 	FRCA_WIN_LOCALHOST = "Elevated permissions are expected on Windows localhost development environments." 	
+	FRCA_FPALATEST2 = "Download the latest FPA release (zip)"
+	FRCA_DASHBOARD_CONFIDENCE_NOTE = "TODO String used but not defined."
+	FRCA_DELNOTE_LN2 = "TODO String used but not defined."
+	FRCA_DELNOTE_LN3 = "TODO String used but not defined."
+	FRCA_INS_8 = "TODO String used but not defined."
+
+
 
 ');
 
@@ -1359,6 +1366,12 @@ include_once ( 'frca-getveldata.php' );
 /** SET THE JOOMLA! PARENT FLAG AND BASIC CONSTANTS ********************************************/
 define( '_VALID_MOS', 1 );  // for J!1.0
 define( '_JEXEC', 1 );      // for J!1.5, J!1.6 thru J!2.5, J!3.0, J!4.0
+
+// @frostmakk 24.01.2021  Reactivated defines. Some to be renamed.
+define('_RES_FPALINK2', 'https://github.com/ForumPostAssistant/FPA/zipball/en-GB/'); // where to get the latest 'Final Releases'
+
+
+
 
 /*
 // Define some basic assistant information
@@ -3655,8 +3668,8 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$database['dbSIZE'] += sprintf('%.2f', $table_size);
 
  // @frostmakk 24.01.2021 This option missing ATM, so just set it.
-$showTables = '1'; 				
-				
+$showTables = '1'; 
+
 				if ($showTables == '1') {
 					$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
 					$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
@@ -4487,8 +4500,8 @@ function recursive_array_search($needle, $haystack)
 									// TODO: change icon colour if out of date
 								//}
 							?>
-							<li class="nav-item py-2 d-none d-md-inline-block" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-fallbackPlacement="flip" data-title="Download FPA" data-content="<?php echo _RES_FPALATEST2; ?>">
-								<a class="btn btn-info 1mr-1" href="<?php echo _RES_FPALINK2; ?>" rel="noreferrer noopener" target="_blank" role="button" aria-label="<?php echo _RES_FPALATEST2; ?>">
+							<li class="nav-item py-2 d-none d-md-inline-block" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-fallbackPlacement="flip" data-title="Download FPA" data-content="<?php echo $lang['FRCA_FPALATEST2']; ?>">
+								<a class="btn btn-info 1mr-1" href="<?php echo _RES_FPALINK2; ?>" rel="noreferrer noopener" target="_blank" role="button" aria-label="<?php echo $lang['FRCA_FPALATEST2']; ?>">
 									<i class="fas fa-cloud-download-alt lead"></i>
 								</a>
 							</li>
@@ -4961,7 +4974,7 @@ function recursive_array_search($needle, $haystack)
 				// display developer-mode notice(d)
 				if ( defined('_FRCA_DEV' )) {
 
-					echo '<h4 class="text-white m-1 p-0 text-capitalize">'. _FRCA_DEVENA .'</h4>';
+					echo '<h4 class="text-white m-1 p-0 text-capitalize">'. $lang['FRCA_DEVENA'] .'</h4>';
 
 				} // end developer-mode display
 
@@ -4969,7 +4982,7 @@ function recursive_array_search($needle, $haystack)
 				// display debug-mode notice
 				if ( defined('_FRCA_DBG') ) {
 
-					echo '<h4 class="text-white m-1 p-0 text-capitalize">' . _FRCA_DBGENA . '</h4>';
+					echo '<h4 class="text-white m-1 p-0 text-capitalize">' . $lang['FRCA_DBGENA'] . '</h4>';
 
 				} // end debug-mode display
 
