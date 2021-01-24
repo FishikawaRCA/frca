@@ -1231,6 +1231,11 @@ $lang = parse_ini_string ('
 	FRCA_EXTLIB_TITLE = "Libraries"
 
 	FRCA_DNE = "Does Not Exist"
+	
+    ; added by @frostmakk 24.01.2021
+	FRCA_EXT_CORE = "Core"    
+	FRCA_EXT_3PD = "3rd Party"        
+	FRCA_WIN_LOCALHOST = "Elevated permissions are expected on Windows localhost development environments." 	
 
 ');
 
