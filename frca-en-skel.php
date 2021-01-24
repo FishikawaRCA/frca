@@ -3654,6 +3654,9 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$tables[$row['name']]['SIZE'] = $tables[$row['name']]['SIZE'] . ' KiB';
 				$database['dbSIZE'] += sprintf('%.2f', $table_size);
 
+ // @frostmakk 24.01.2021 This option missing ATM, so just set it.
+$showTables = '1'; 				
+				
 				if ($showTables == '1') {
 					$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
 					$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
