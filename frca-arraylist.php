@@ -1,0 +1,63 @@
+<?php
+// old array names
+	// build the initial arrays used throughout fpa/bra
+	$fpa['ARRNAME']         = _RES_FRCA;
+	$fpa['diagLOG']         = 'fpa-Diag.log';
+	$snapshot['ARRNAME']        = $lang['FRCA_SNAP_TITLE'];
+	$instance['ARRNAME']        = $lang['FRCA_INST_TITLE'];
+	$system['ARRNAME']          = $lang['FRCA_SYS_TITLE'];
+	$phpenv['ARRNAME']          = $lang['FRCA_PHP_TITLE'];
+	$phpenv['phpLASTERR']       = '';
+	$phpextensions['ARRNAME']   = $lang['FRCA_PHPEXT_TITLE'];
+	$phpreq['ARRNAME']          = $lang['FRCA_PHPREQ_TITLE'];
+	$phpreq['libxml']           = '';
+	$phpreq['xml']              = '';
+	$phpreq['zlib']             = '';
+	$phpreq['zip']              = '';
+	$phpreq['openssl']          = '';
+	$phpreq['curl']             = '';
+	$phpreq['iconv']            = '';
+	$phpreq['mbstring']         = '';
+	$phpreq['mysql']            = '';
+	$phpreq['mysqli']           = '';
+	$phpreq['pdo_mysql']        = '';
+	$phpreq['mcrypt']           = '';
+	$apachemodules['ARRNAME']   = $lang['FRCA_APAMOD_TITLE'];
+	$apachereq['ARRNAME']       = $lang['FRCA_APAREQ_TITLE'];
+	$apachereq['mod_rewrite']   = '';
+	$apachereq['mod_expires']   = '';
+	$apachereq['mod_deflate']   = '';
+	$apachereq['mod_security']  = '';
+	$apachereq['mod_evasive']   = '';
+	$apachereq['mod_dosevasive'] = '';
+	$apachereq['mod_ssl']       = '';
+	$apachereq['mod_qos']       = '';
+	$apachereq['mod_userdir']  = '';
+	$database['ARRNAME']        = $lang['FRCA_DB_TITLE'];
+	$tables['ARRNAME']          = $lang['FRCA_DBTBL_TITLE'];
+	$modecheck['ARRNAME']       = $lang['FRCA_PERMCHK_TITLE'];
+	// folders to be tested for permissions
+	$folders['ARRNAME']         = $lang['FRCA_COREDIR_TITLE'];
+	$folders[]                  = 'images/';
+	$folders[]                  = 'components/';
+	$folders[]                  = 'modules/';
+	$folders[]                  = 'plugins/';               // J!1.5 and above | either / or
+	$folders[]                  = 'mambots/';               // J!1.0 only
+	$folders[]                  = 'language/';
+	$folders[]                  = 'templates/';
+	$folders[]                  = 'cache/';
+	$folders[]                  = 'logs/';
+	$folders[]                  = 'tmp/';
+	$folders[]                  = 'administrator/components/';
+	$folders[]                  = 'administrator/modules/';
+	$folders[]                  = 'administrator/language/';
+	$folders[]                  = 'administrator/templates/';
+	$folders[]                  = 'sites/';                 // nooku only?
+	$folders[]                  = 'administrator/logs/';
+	$elevated['ARRNAME']        = $lang['FRCA_ELEVPERM_TITLE'];
+	$component['ARRNAME']       = $lang['FRCA_EXTCOM_TITLE'];
+	$module['ARRNAME']          = $lang['FRCA_EXTMOD_TITLE'];
+	$plugin['ARRNAME']          = $lang['FRCA_EXTPLG_TITLE'];
+	$template['ARRNAME']        = $lang['FRCA_TMPL_TITLE'];
+	$library['ARRNAME']         = $lang['FRCA_EXTLIB_TITLE'];
+?>
