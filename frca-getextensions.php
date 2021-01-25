@@ -125,7 +125,7 @@
 		@closedir($dh);
 	}
 
-
+/*
 	// use the same function (above) to search for each extension type and load the results into it's associated array
 	@getDetails('components', $component, 'SITE');
 	@getDetails('administrator/components', $component, 'ADMIN');
@@ -143,6 +143,8 @@
 	@getDetails('templates', $template, 'SITE');
 	@getDetails('administrator/templates', $template, 'ADMIN');
 	@getDetails('libraries', $library, 'SITE');
+*/
+
 /// } // end if instanceFOUND
 
 ?>
