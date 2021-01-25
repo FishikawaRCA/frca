@@ -115,7 +115,13 @@
  *
  */
 
-
+//TESTING nmespace
+// not strictly necessary now, but if frca grows in time, might need the use of
+// subnamespaces in functions to avoid name clashes
+// https://www.php.net/manual/en/language.namespaces.basics.php
+// if problems with functions etc, remove namespace below and "\" in front of PHP functions on lines;
+// 674, 675, 740, 752, 3257, 3582, 3586  eg: \PDO
+namespace FRCA;
 
 /**
  * Fishikawa CORE RESOURCE CONSTANTS
@@ -141,7 +147,7 @@ define('_RES_FRCA_COPYRIGHT_STMT', ' Copyright &copy; 2020-' . @date("Y") . ' Ru
  *
  */
 define ( '_FRCA_DEV', true );                                                  // developer-mode, displays raw frca & array data
-#define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
+define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
 
 
 
@@ -543,38 +549,6 @@ if ( isset($_POST['darkmode']) or isset($_POST['layoutview']) or isset($_POST['f
 }
 
 
-
-/**
- * DISABLE/ENABLE FRCA UI/UX & SPECIAL FEATURES
- * comment (disable) or uncomment (enable) individual FRCA user features or functions
- *
- * FRCA Self Destruct
- *  - deletes FRCA if _FRCA_SELF_DESTRUCT_AGE exceeded
- *  - if _FRCA_DEV or _FRCA_DBG are defined/TRUE then self-destruction is auto-disabled
- *
- * FPA SSL Redirect
- * - redirects to the SSL site if available
- *  - if localhost, non-routable/reserved IP or, in some cases, if behind a frontend-server
- *    (EG: proxy, firewall, load-balancer) or if _FRCA_DEV or _FRCA_DBG are defined/TRUE
- *    then redirection is auto-disabled
- *
- * LiveChecks require cURL to function (tested below)
- * - each LiveCheck also has it's own resource requirement criteria to run
- * - this is tested for within each unique LiveCheck function (Joomla Update, FRCA Update & VEL Check)
- *
- */
-/*
-///define( '_FRCA_SELF', basename($_SERVER['PHP_SELF']) );  // DONT DISABLE SEVERAL FUNCTIONS RELY ON THIS : take in to account renamed FRCA, ensure all local links work
-
-#define( '_FRCA_SELF_DESTRUCT', true );  // self-destruct, attempt to self-delete on next run if file older than configured duration
-#define( '_FRCA_SSL_REDIRECT', true );   // SSL Redirect - when possible and if a valid SSL certificate is found FPa will attempt to redirect to the SSL version of the site
-#define( '_LIVE_CHECK_FPA', true );      // enable live latest FPA version check
-#define( '_LIVE_CHECK_JOOMLA', true );   // enable live latest Joomla! version check
-#define ( '_LIVE_CHECK_VEL', true );     // enable live VEL check
-*/
-
-
-
 /**
  * Check for a localhost before doing anything
  *
@@ -702,8 +676,8 @@ if ( defined('_FRCA_SELF_DESTRUCT') and $candoSELFDESTRUCT == 1 and ( !defined('
 		$fileMTime = @date( 'd-m-Y', $fileinfo['mtime'] );
 		$today     = @date( 'd-m-Y' );
 
-		$thisDate = new DateTime( $today );
-		$fileDate = new DateTime( $fileMTime );
+		$thisDate = new \DateTime( $today );
+		$fileDate = new \DateTime( $fileMTime );
 		$interval = $thisDate->diff( $fileDate );
 		$fileAge  = $interval->days;
 		//var_dump($interval);
@@ -768,7 +742,7 @@ if ( (file_exists('components/') and file_exists('modules/'))
 if ( file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {
 
 		require_once ( 'configuration.php' );
-		$jConfig = new JConfig();
+		$jConfig = new \JConfig();
 
 		$instance['instanceCONFIGURED'] = 1;
 
@@ -780,7 +754,7 @@ if ( file_exists('configuration.php') and filesize('configuration.php') > '1536'
 	if ( file_exists( @$jconfigOVERRIDEPATH[1] .'\configuration.php' ) and filesize( @$jconfigOVERRIDEPATH[1] .'\configuration.php') > '1536' ) {
 
 		require_once ( @$jconfigOVERRIDEPATH[1] . '\configuration.php' );
-		$jConfig = new JConfig();
+		$jConfig = new \JConfig();
 
 		$instance['instanceCONFIGURED'] = 1;
 
@@ -1231,11 +1205,11 @@ $lang = parse_ini_string ('
 	FRCA_EXTLIB_TITLE = "Libraries"
 
 	FRCA_DNE = "Does Not Exist"
-	
+
     ; added by @frostmakk 24.01.2021
-	FRCA_EXT_CORE = "Core"    
-	FRCA_EXT_3PD = "3rd Party"        
-	FRCA_WIN_LOCALHOST = "Elevated permissions are expected on Windows localhost development environments." 	
+	FRCA_EXT_CORE = "Core"
+	FRCA_EXT_3PD = "3rd Party"
+	FRCA_WIN_LOCALHOST = "Elevated permissions are expected on Windows localhost development environments."
 	FRCA_FPALATEST2 = "Download the latest FPA release (zip)"
 	FRCA_DASHBOARD_CONFIDENCE_NOTE = "TODO String used but not defined."
 	FRCA_DELNOTE_LN2 = "TODO String used but not defined."
@@ -1332,7 +1306,9 @@ if ( defined('_FRCA_LANG_DETECT')
 include_once ( 'frca-dashboard.php' );
 
 
-
+/**
+ * indlude the PDA json database from cURL
+ */
 include_once ( 'frca-getpdadata.php' );
 
 
@@ -1342,6 +1318,9 @@ include_once ( 'frca-getpdadata.php' );
 include ( 'frca-getpdc-function.php' );
 
 
+/**
+ * indlude the VEL json database from cURL
+ */
 include_once ( 'frca-getveldata.php' );
 
 
@@ -1361,6 +1340,10 @@ include_once ( 'frca-getveldata.php' );
  include_once ( 'frca-getextensions.php' );
 
 
+/**
+ * indlude the frca doFRCALIVE() function
+ */
+ include_once ( 'frca-dofrcalive.php' );
 
 
 /** SET THE JOOMLA! PARENT FLAG AND BASIC CONSTANTS ********************************************/
@@ -3276,8 +3259,8 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 	} elseif ($instance['configDBTYPE'] == 'mysqli' and $phpenv['phpSUPPORTSMYSQLI'] == $lang['FRCA_Y']) { // mysqli
 
 		if (function_exists('mysqli_connect')) {
-			$dBconn              = @new mysqli($instance['configDBHOST'], $instance['configDBUSER'], $instance['configDBPASS'], $instance['configDBNAME']);
-			$database['dbERROR'] = mysqli_connect_errno($dBconn) . ':' . mysqli_connect_error($dBconn);
+			$dBconn              = @new \mysqli($instance['configDBHOST'], $instance['configDBUSER'], $instance['configDBPASS'], $instance['configDBNAME']);
+			$database['dbERROR'] = mysqli_connect_errno() . ':' . mysqli_connect_error();
 			$sql                 = "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'";
 			$result              = @$dBconn->query($sql);
 
@@ -3399,11 +3382,11 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 	} elseif ($instance['configDBTYPE'] == 'pdomysql') {
 
 		try {
-			$dBconn = new PDO("mysql:host=" . $instance['configDBHOST'] . ";dbname=" . $instance['configDBNAME'], $instance['configDBUSER'], $instance['configDBPASS']);
+			$dBconn = new \PDO("mysql:host=" . $instance['configDBHOST'] . ";dbname=" . $instance['configDBNAME'], $instance['configDBUSER'], $instance['configDBPASS']);
 
 			// set the PDO error mode to exception
 			$dBconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			$dBconn = FALSE;
 		}
 
@@ -3601,11 +3584,11 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 	} elseif ($instance['configDBTYPE'] == 'pgsql') {
 
 		try {
-			$dBconn = new PDO("pgsql:host=" . $instance['configDBHOST'] . ";dbname=" . $instance['configDBNAME'], $instance['configDBUSER'], $instance['configDBPASS']);
+			$dBconn = new \PDO("pgsql:host=" . $instance['configDBHOST'] . ";dbname=" . $instance['configDBNAME'], $instance['configDBUSER'], $instance['configDBPASS']);
 
 			// set the PDO error mode to exception
 			$dBconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			$dBconn = FALSE;
 		}
 
@@ -3668,7 +3651,7 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$database['dbSIZE'] += sprintf('%.2f', $table_size);
 
  // @frostmakk 24.01.2021 This option missing ATM, so just set it.
-$showTables = '1'; 
+$showTables = '1';
 
 				if ($showTables == '1') {
 					$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
@@ -3763,63 +3746,7 @@ if (!@$dBconn and @$instance['configDBCREDOK'] == $lang['FRCA_PMISS']) {
  * added - @RussW 28-May-2020
  *
  */
-
- /*
-function doJOOMLALIVE($thisJVER)
-{
-
-	global $latestJVER;
-
-	$jupdateURL  = 'https://update.joomla.org/core/list.xml';
-	$jupdateXML  = simpleXML_load_file($jupdateURL, 'SimpleXMLElement', LIBXML_NOCDATA);
-
-	if ($jupdateXML ===  FALSE) {
-		$joomlaVersionCheck = '';
-	} else {
-		$latestJATTR  = $jupdateXML->extension[count($jupdateXML->extension) - 1];
-		$latestJVER   = $latestJATTR->attributes()->version->__toString();
-		//$thisJVER     = '3.9.18';
-
-		if (version_compare($thisJVER, $latestJVER) < 0) {
-			$joomlaVersionCheckStatus   = 'warning';
-			$joomlaVersionCheckIcon     = 'exclamation';
-			$joomlaVersionCheckMessage  = _VER_CHECK_ATOLD . ' (' . $thisJVER . ')';
-			$joomlaVersionCheckDownload = 'https://downloads.joomla.org/';
-		} elseif (version_compare($thisJVER, $latestJVER) > 0) {
-			$joomlaVersionCheckStatus   = 'info';
-			$joomlaVersionCheckIcon     = 'question';
-			$joomlaVersionCheckMessage  = _VER_CHECK_ATDEV . ' (' . $thisJVER . ')';
-			$joomlaVersionCheckDownload = '';
-		} else {
-			$joomlaVersionCheckStatus   = 'success';
-			$joomlaVersionCheckIcon     = 'check';
-			$joomlaVersionCheckMessage  = _VER_CHECK_ATCUR . ' (' . $thisJVER . ')';
-			$joomlaVersionCheckDownload = '';
-		}
-
-		echo '<div class="w-100 p-2 bg-white small border border-' . $joomlaVersionCheckStatus . ' text-' . $joomlaVersionCheckStatus . '">';
-		echo '<i class="fas fa-' . $joomlaVersionCheckIcon . '-circle fa-fw"></i>&nbsp;';
-		echo 'Joomla! ' . $joomlaVersionCheckMessage;
-
-		if (!empty($joomlaVersionCheckDownload)) {
-			echo '<a class="mt-1 py-1 badge badge-' . $joomlaVersionCheckStatus . ' d-block w-75 mx-auto d-print-none" data-html2canvas-ignore="true" href="' . $joomlaVersionCheckDownload . '" rel="noreferrer noopener" target="_blank">Download Latest Joomla! (v' . $latestJVER . ')</a>';
-		}
-		echo '</div>';
-	}
-} // function doJOOMLACHECK
-*/
-
 include_once ( 'frca-getjoomlalatest.php' );
-
-// get the latest Joomla release information
-if ( defined( '_LIVE_CHECK_JOOMLA' ) and $candoJOOMLACHECK == 1 and $instance['instanceFOUND'] == 1 ) {
-
-	doJOOMLALIVE( $thisJVER );
-
-	// TESTING
-	//echo '-[thisJVER: '. $thisJVER .']- -[latestJVER: '. $latestJVER .' ]-';
-
-}
 
 
 function recursive_array_search($needle, $haystack)
@@ -3836,6 +3763,10 @@ function recursive_array_search($needle, $haystack)
 
 ?>
 
+<?php
+// TESTING
+//include_once ('frca-showarrays.php');
+?>
 
 <!doctype html>
 <html lang="<?php echo substr( $browserLanguage, 0, 2 ); ?>" dir="ltr" vocab="http://schema.org/">
@@ -4201,6 +4132,7 @@ function recursive_array_search($needle, $haystack)
 
 			<?php
 			/**
+			 * FRCA & JOOMLA LIVE CHECKS
 			 * FRCA now does some of the heavy-lifting and remote service work in the page body to ensure that some of
 			 * the page is displayed whilst loading and the pace progress bar better reflects that something is happening,
 			 * not just a white page whilst downloading remote resources and doing some of the tests
@@ -4211,7 +4143,7 @@ function recursive_array_search($needle, $haystack)
 		<?php
 			if ( defined('_LIVE_CHECK_FRCA') and ( isset($candoFRCACHECK) and $candoFRCACHECK = 1 ) ) {
 
-				include_once ( 'frca-dofrcalive.php' );
+				///include_once ( 'frca-dofrcalive.php' );
 				doFRCALIVE();
 
 				/**
@@ -4313,7 +4245,15 @@ function recursive_array_search($needle, $haystack)
 			} // end candoFRCACHECK
 
 
-			// TODO: POSSIBLY DO JOOMLALIVE here
+			// get the latest Joomla release information
+			if ( defined( '_LIVE_CHECK_JOOMLA' ) and $candoJOOMLACHECK == 1 and $instance['instanceFOUND'] == 1 ) {
+
+				doJOOMLALIVE( $thisJVER );
+
+				// TESTING
+				//echo '-[thisJVER: '. $thisJVER .']- -[latestJVER: '. $latestJVER .' ]-';
+
+			}
 		?>
 
 
@@ -6836,79 +6776,26 @@ getPDC( '1', '0052' );
 							<!--</pre>-->
 
 							<?php
-/*
-						$problemList['CRITICAL']['ISSUES'][]			= array(
-							'HEADING'		=> 'Joomla! instance found but not configured correctly',
-							'DESCRIPTION'	=> '<p>A Joomla! <b>instance</b> was found but appears to be <i>missing</i> the database connection credentials.</p> <p>Have you run the intall process? Or did you just copy the configuration.php-dist file to configuration.php?</p>',
-							'CATEGORY' 		=> 'vulnerability',
-							'SEVERITY'		=> '3',
-							'SYMPTOMS'		=> 'white screen, "Error" message, error 500timeout issues dropping toast butter side down toast butter side down, database connection error timeout issues dropping toast butter side down',
-							'CAUSES'		=> array(
-								'0'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'1'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-							),
-							'EFFECTS'		=> 'installation, operation, database errors, timeout issues, dropping toast butter side down',
-							'ACTIONS'		=> array(
-								'0'	=> '<p>Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.</p>Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.</p>',
-								'1'	=> '<p>Nulla vitae elit libero, a pharetra augue mollis interdum. <i>Nulla vitae elit libero</i>, a pharetra augue mollis interdum.</p> <p><u>Nulla vitae elit libero</u>, a pharetra augue mollis interdum.</p>',
-								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-							),
-							'ALERT'			=> 'warning|an additional warning if there is a risk of data-loss or corruption or something important'
-						);
 
+// need to get exension list before velCOMPARe
+	// use the same function (above) to search for each extension type and load the results into it's associated array
+	@getDetails('components', $component, 'SITE');
+	@getDetails('administrator/components', $component, 'ADMIN');
 
-						$problemList['CRITICAL'][]			= array(
-							'HEADING'		=> 'a Joomla! instance found but not configured correctly. missing the database connection credentials. Have you run the intall process',
-							'DESCRIPTION'	=> 'A Joomla! instance was found but appears to be missing the database connection credentials. Have you run the intall process? Or did you just copy the configuration.php-dist file to configuration.php?',
-							'CATEGORY' 		=> 'seo',
-							'SEVERITY'		=> '4',
-							'SYMPTOMS'		=> 'white screen, error message, upgrade, something else',
-							'CAUSES'		=> array(
-								'0'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'1'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-							),
-							'EFFECTS'		=> 'installation, operation, upgrade, something else',
-							'ACTIONS'		=> array(
-								'0'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'1'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-							),
-							'ALERT'			=> 'warning|additional warning if there is a risk of data-loss or corruption or something of importantance'
-						);
+	@getDetails('modules', $module, 'SITE');
+	@getDetails('administrator/modules', $module, 'ADMIN');
 
+	// cater for Joomla! 1.0 differences
+	if (@$instance['cmsRELEASE'] == '1.0') {
+		@getDetails('mambots', $plugin, 'SITE');
+	} else {
+		@getDetails('plugins', $plugin, 'SITE');
+	}
 
-						// TESTING: empty panels
-						$problemList['CRITICAL'][]			= array(
-							'HEADING'		=> 'Something on the server was not good',
-							'DESCRIPTION'	=> 'A Joomla! <b>instance was found but</b> appears to be missing the database connection credentials. Have you run the intall process? Or did you just copy the configuration.php-dist file to configuration.php?',
-							'CATEGORY' 		=> 'server',
-							'SEVERITY'		=> '1',
-							'SYMPTOMS'		=> 'white screen, error message, upgrade, something else',
-							'CAUSES'		=> array(
-							),
-							'EFFECTS'		=> '',
-//							'CAUSES'		=> array(
-//								'0'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-//								'1'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-//								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-//								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-//							),
-//							'EFFECTS'		=> 'installation, operation, upgrade, something else',
-							'ACTIONS'		=> array(
-								'0'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'1'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-								'2'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum. <b>Nulla vitae elit libero</b>, a pharetra augue mollis interdum.',
-								'3'	=> 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-							),
-							'ALERT'			=> 'warning|additional warning if there is a risk of data-loss or corruption or something of importantance'
-						);
-*/
+	@getDetails('templates', $template, 'SITE');
+	@getDetails('administrator/templates', $template, 'ADMIN');
+	@getDetails('libraries', $library, 'SITE');
+
 
 // orig location
 //include_once( 'frca-velcompare.php' );
