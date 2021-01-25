@@ -3847,60 +3847,6 @@ function recursive_array_search($needle, $haystack)
 			}
 			.navbar-brand h1 { font-size: 2.34375rem; font-weight: 500 !important; line-height: 1 !important; }
 
-			/*
-			.card-body.card-background-head,
-			.card-body.card-background-body,
-			.card-body.card-background-tail { position: relative; }
-			.card-body * {
-				z-index: 999;
-			}
-			.card-body.card-background-tail:before {
-				display: flex;
-				justify-content: flex-start !important;
-				align-items: center !important;
-				content: '\f578';
-				font: normal normal normal 38rem/1 'Font Awesome 5 Free';
-				font-weight: 900;
-				left:10px;
-				right:0;
-				position:absolute;
-				top:0;
-				bottom:0;
-				color: rgba(0,0,0,0.028) !important;;
-				overflow: hidden;
-			}
-			.card-body.card-background-body:before {
-				display: flex;
-				justify-content: center!important;
-				align-items: center!important;
-				content: '\f054';
-				font: normal normal normal 21rem/1 'Font Awesome 5 Free';
-				font-weight: 900;
-				left:0;
-				right:0;
-				position:absolute;
-				top:0;
-				bottom:0;
-				color: rgba(0,0,0,0.028) !important;;
-				overflow: hidden;
-			}
-			.card-body.card-background-head:before {
-				display: flex;
-				justify-content: flex-end !important;
-				align-items: center !important;
-				content: '\f578';
-				font: normal normal normal 30rem/1 'Font Awesome 5 Free';
-				font-weight: 900;
-				left:0;
-				right:10px;
-				position:absolute;
-				top:0;
-				bottom:0;
-				color: rgba(0,0,0,0.028) !important;;
-				overflow: hidden;
-			}
-			*/
-
 			.card-body-text, .problem-symptoms, .problem-effects { font-size: 0.90rem; line-height:1.2; }
 			.user-messages-container::-webkit-scrollbar,
 			.card-body-text::-webkit-scrollbar,
@@ -4132,12 +4078,15 @@ function recursive_array_search($needle, $haystack)
 
 			<?php
 			/**
-			 * FRCA & JOOMLA LIVE CHECKS
 			 * FRCA now does some of the heavy-lifting and remote service work in the page body to ensure that some of
 			 * the page is displayed whilst loading and the pace progress bar better reflects that something is happening,
 			 * not just a white page whilst downloading remote resources and doing some of the tests
 			 *
 			 * @RussW 17-january-2021
+			 *
+			 * FRCA & JOOMLA LIVE CHECKS
+			 * do frca and joomla live version checks
+			 *
 			 */
 			?>
 		<?php
@@ -6363,66 +6312,41 @@ echo '</pre><hr>';
 
 
 <?php
-/*
-// get the Problem Determination Aide from the supplied problem-code and the frca-pdadata-tmp.json file
-// then update/add the problem record to the discovered problems array
-function getPDC( $impactGroup, $problemCode ) {
+// need to get exension list before velCOMPARe
+// TODO: combine all the extensions, we only need one list and will save merging it later
+	// use the same function (above) to search for each extension type and load the results into it's associated array
+	@getDetails('components', $component, 'SITE');
+	@getDetails('administrator/components', $component, 'ADMIN');
 
-	global $lang, $pdadataARRAY, $problemList;
+	@getDetails('modules', $module, 'SITE');
+	@getDetails('administrator/modules', $module, 'ADMIN');
 
-	// convert the impactGroup character to a textual name that is used within the $problemList array to group discovered isuses
-	if ( $impactGroup == 'F' ) {
-		$impactGroup = strtoupper( _RES_FRCA );
-
-	// } elseif ( $impactGroup == '5-9 and A-F' ) {
-	// 	$impact = strtoupper(CURRENTLY UNUSED);
-	// @RussW - 7th-Jan-2021
-
-	} elseif ( $impactGroup == '4' ) {
-		$impact = strtoupper( $lang['FRCA_BESTPRACTICE'] );
-
-	} elseif ( $impactGroup == '3' ) {
-		$impact = strtoupper( $lang['FRCA_MINOR'] );
-
-	} elseif ( $impactGroup == '2' ) {
-		$impact = strtoupper( $lang['FRCA_MODERATE'] );
-
-	} elseif ( $impactGroup == '1' ) {
-		$impact = strtoupper( $lang['FRCA_CRITICAL'] );
-
+	// cater for Joomla! 1.0 differences
+	if (@$instance['cmsRELEASE'] == '1.0') {
+		@getDetails('mambots', $plugin, 'SITE');
 	} else {
-		$impact = strtoupper( $lang['FRCA_U'] );
-
+		@getDetails('plugins', $plugin, 'SITE');
 	}
 
-
-	// check that the problem-code exists in the PDA, if not raise '0000' - 'Unexpected Fishikawa Error' problem-code
-	if ( array_key_exists($problemCode, $pdadataARRAY) ) {
-		$problemCode		= $problemCode;
-
-	} else {
-		$impact				= strtoupper( $lang['FRCA_CRITICAL'] );
-		$problemError		= $problemCode;
-		$problemCode		= '0000';
-	}
+	@getDetails('templates', $template, 'SITE');
+	@getDetails('administrator/templates', $template, 'ADMIN');
+	@getDetails('libraries', $library, 'SITE');
 
 
-	// add the problem-code and associated details to the problem array
-	$problemList[$impact][$problemCode] = $pdadataARRAY[$problemCode];
-	$problemList[$impact][$problemCode]['problemcode'] = $problemCode;
+// orig location
+//include_once( 'frca-velcompare.php' );
+
+//include_once ('frca-getveldata.php');
+include_once ( 'frca-velcompare.php' );
 
 
-	if ( isset($problemError) ) {
-		$problemList[$impact][$problemCode]['severity'] = $lang['FRCA_RISKUC'];
-		$problemList[$impact][$problemCode]['symptoms'][1] = $problemList[$impact][$problemCode]['symptoms'][1] .' for PDC: '. $problemError;
-	}
 
 
-} // end getPDC
-*/
 
 
-// TESTING getPDC
+
+
+// TESTING getPDC  FAKE DEMO ERRORS
 getPDC( '1', 'A000' );
 getPDC( '1', '0052' );
 
@@ -6776,33 +6700,6 @@ getPDC( '1', '0052' );
 							<!--</pre>-->
 
 							<?php
-
-// need to get exension list before velCOMPARe
-	// use the same function (above) to search for each extension type and load the results into it's associated array
-	@getDetails('components', $component, 'SITE');
-	@getDetails('administrator/components', $component, 'ADMIN');
-
-	@getDetails('modules', $module, 'SITE');
-	@getDetails('administrator/modules', $module, 'ADMIN');
-
-	// cater for Joomla! 1.0 differences
-	if (@$instance['cmsRELEASE'] == '1.0') {
-		@getDetails('mambots', $plugin, 'SITE');
-	} else {
-		@getDetails('plugins', $plugin, 'SITE');
-	}
-
-	@getDetails('templates', $template, 'SITE');
-	@getDetails('administrator/templates', $template, 'ADMIN');
-	@getDetails('libraries', $library, 'SITE');
-
-
-// orig location
-//include_once( 'frca-velcompare.php' );
-
-//include_once ('frca-getveldata.php');
-include_once ( 'frca-velcompare.php' );
-
 
 
 
