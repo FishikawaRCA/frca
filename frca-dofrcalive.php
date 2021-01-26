@@ -46,8 +46,8 @@ function doFRCALIVE() {
 		$frcacURL     		= 'https://api.github.com/repos/ForumPostAssistant/FPA/releases/latest?'. $randCacheBuster;  // frca github json latest release URL
 		$ch          		= curl_init($frcacURL);  // init cURL
 		$frcacURLOPT  		= array( CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
-									CURLOPT_TIMEOUT => 5,
-									CURLOPT_CONNECTTIMEOUT => 5,
+									CURLOPT_TIMEOUT => 30,
+									CURLOPT_CONNECTTIMEOUT => 10,
 									CURLOPT_RETURNTRANSFER => true,
 									CURLOPT_SSL_VERIFYPEER => false,
 									CURLOPT_HTTPHEADER => array('Content-type: application/json'),

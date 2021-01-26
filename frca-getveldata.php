@@ -40,10 +40,10 @@
 		$velcURL			= 'https://extensions.joomla.org/index.php?option=com_vel&format=json';
 		$ch					= curl_init( $velcURL );  // init cURL
 		$velcURLOPT			= array ( CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
-									  CURLOPT_TIMEOUT => 5,
-									  CURLOPT_CONNECTTIMEOUT => 5,
+									  CURLOPT_TIMEOUT => 30,
+									  CURLOPT_CONNECTTIMEOUT => 10,
 									  CURLOPT_RETURNTRANSFER => true,
-									  CURLOPT_SSL_VERIFYPEER => false,							 
+									  CURLOPT_SSL_VERIFYPEER => false,
 									  CURLOPT_HTTPHEADER => array('Content-type: application/json'),
 									);
 		curl_setopt_array( $ch, $velcURLOPT );

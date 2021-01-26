@@ -41,10 +41,10 @@
 		$langcURL			= 'https://hotmangoteam.github.io/Fishikawatest/translation/frca-'. $browserLanguage .'.ini?'. $randCacheBuster;
 		$ch					= curl_init( $langcURL );  // init cURL
 		$langcURLOPT		= array ( CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
-									  CURLOPT_TIMEOUT => 5,
-									  CURLOPT_CONNECTTIMEOUT => 5,
+									  CURLOPT_TIMEOUT => 30,
+									  CURLOPT_CONNECTTIMEOUT => 10,
 									  CURLOPT_RETURNTRANSFER => true,
-									  CURLOPT_SSL_VERIFYPEER => false,                                      
+									  CURLOPT_SSL_VERIFYPEER => false,
 									  CURLOPT_HTTPHEADER => array('Content-type: text/html'),
 									);
 		curl_setopt_array( $ch, $langcURLOPT );
