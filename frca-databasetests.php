@@ -104,21 +104,17 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 					$tables[$row['Name']]['SIZE'] = sprintf('%.2f', $table_size);
 					$database['dbSIZE'] += sprintf('%.2f', $table_size);
 					$tables[$row['Name']]['SIZE'] = $tables[$row['Name']]['SIZE'] . ' KiB';
-
-					if ($showTables == '1') {
-						$tables[$row['Name']]['ENGINE']     = $row['Engine'];
-						$tables[$row['Name']]['VERSION']    = $row['Version'];
-						$tables[$row['Name']]['CREATED']    = $row['Create_time'];
-						$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
-						$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
-						$tables[$row['Name']]['COLLATION']  = $row['Collation'];
-						$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
-						$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
-						$tables[$row['Name']]['RECORDS']    = $row['Rows'];
-						$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
-					}
+					$tables[$row['Name']]['ENGINE']     = $row['Engine'];
+					$tables[$row['Name']]['VERSION']    = $row['Version'];
+					$tables[$row['Name']]['CREATED']    = $row['Create_time'];
+					$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
+					$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
+					$tables[$row['Name']]['COLLATION']  = $row['Collation'];
+					$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
+					$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
+					$tables[$row['Name']]['RECORDS']    = $row['Rows'];
+					$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
 				}
-
 
 				if ($database['dbSIZE'] > '1024') {
 					$database['dbSIZE'] = sprintf('%.2f', ($database['dbSIZE'] / 1024)) . ' MiB';
@@ -147,6 +143,7 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 		if (function_exists('mysqli_connect')) {
 			$dBconn              = @new \mysqli($instance['configDBHOST'], $instance['configDBUSER'], $instance['configDBPASS'], $instance['configDBNAME']);
 			$database['dbERROR'] = mysqli_connect_errno() . ':' . mysqli_connect_error();
+            if ($database['dbERROR'] == '0:') {
 			$sql                 = "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'";
 			$result              = @$dBconn->query($sql);
 
@@ -225,20 +222,16 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 					$tables[$row['Name']]['SIZE'] = sprintf('%.2f', $table_size);
 					$database['dbSIZE'] += sprintf('%.2f', $table_size);
 					$tables[$row['Name']]['SIZE'] = $tables[$row['Name']]['SIZE'] . ' KiB';
-
-
-					if ($showTables == '1') {
-						$tables[$row['Name']]['ENGINE']     = $row['Engine'];
-						$tables[$row['Name']]['VERSION']    = $row['Version'];
-						$tables[$row['Name']]['CREATED']    = $row['Create_time'];
-						$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
-						$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
-						$tables[$row['Name']]['COLLATION']  = $row['Collation'];
-						$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
-						$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
-						$tables[$row['Name']]['RECORDS']    = $row['Rows'];
-						$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
-					}
+					$tables[$row['Name']]['ENGINE']     = $row['Engine'];
+					$tables[$row['Name']]['VERSION']    = $row['Version'];
+					$tables[$row['Name']]['CREATED']    = $row['Create_time'];
+					$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
+					$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
+					$tables[$row['Name']]['COLLATION']  = $row['Collation'];
+					$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
+					$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
+					$tables[$row['Name']]['RECORDS']    = $row['Rows'];
+					$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
 				}
 
 
@@ -261,9 +254,19 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 			$database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
 			$database['dbCOLLATION']    = $lang['FRCA_U']; // database collation
 			$database['dbCHARSET']      = $lang['FRCA_U']; // database character-set
+		}
+
+		} else {
+			$database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
+			$database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB
+			$database['dbHOSTPROTO']    = $lang['FRCA_U']; // server protocol type
+			$database['dbHOSTCLIENT']   = $lang['FRCA_U']; // client library version
+			$database['dbHOSTDEFCHSET'] = $lang['FRCA_U']; // hosts default character-set
+			$database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
+			$database['dbCOLLATION']    = $lang['FRCA_U']; // database collation
+			$database['dbCHARSET']      = $lang['FRCA_U']; // database character-set
 			$database['dbERROR']        = $lang['FRCA_MYSQLI_CONN'];
 		} // end of dataBase connection routines
-
 
 	} elseif ($instance['configDBTYPE'] == 'pdomysql') {
 
@@ -343,20 +346,16 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$tables[$row['Name']]['SIZE'] = sprintf('%.2f', $table_size);
 				$database['dbSIZE'] += sprintf('%.2f', $table_size);
 				$tables[$row['Name']]['SIZE'] = $tables[$row['Name']]['SIZE'] . ' KiB';
-
-
-				if ($showTables == '1') {
-					$tables[$row['Name']]['ENGINE']     = $row['Engine'];
-					$tables[$row['Name']]['VERSION']    = $row['Version'];
-					$tables[$row['Name']]['CREATED']    = $row['Create_time'];
-					$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
-					$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
-					$tables[$row['Name']]['COLLATION']  = $row['Collation'];
-					$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
-					$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
-					$tables[$row['Name']]['RECORDS']    = $row['Rows'];
-					$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
-				}
+				$tables[$row['Name']]['ENGINE']     = $row['Engine'];
+				$tables[$row['Name']]['VERSION']    = $row['Version'];
+				$tables[$row['Name']]['CREATED']    = $row['Create_time'];
+				$tables[$row['Name']]['UPDATED']    = $row['Update_time'];
+				$tables[$row['Name']]['CHECKED']    = $row['Check_time'];
+				$tables[$row['Name']]['COLLATION']  = $row['Collation'];
+				$tables[$row['Name']]['FRAGSIZE']   = sprintf('%.2f', ($row['Data_free'] / 1024)) . ' KiB';
+				$tables[$row['Name']]['MAXGROW']    = sprintf('%.1f', ($row['Max_data_length'] / 1073741824)) . ' GiB';
+				$tables[$row['Name']]['RECORDS']    = $row['Rows'];
+				$tables[$row['Name']]['AVGLEN']     = sprintf('%.2f', ($row['Avg_row_length'] / 1024)) . ' KiB';
 			}
 
 			if ($database['dbSIZE'] > '1024') {
@@ -386,15 +385,62 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$postgresql = $lang['FRCA_Y'];
 
 				$sql = @pg_query($dBconn, "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'");
-				$exset = @pg_fetch_all($sql);
+				if ($sql){
+                    $exset = @pg_fetch_all($sql);
 
-				$sql = @pg_query($dBconn, "select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template");
-				$tmpldef = @pg_fetch_all($sql);
+                    $sql = @pg_query($dBconn, "select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template");
+                    $tmpldef = @pg_fetch_all($sql);
+
+                    // Get database user privileges
+                    $sql = @pg_query($dBconn,"select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
+                    $pgArrUserPriv = @pg_fetch_all($sql);                                                                                                                                                 
+                    $pgDbUserOID = $pgArrUserPriv[0]['oid'];
+                    $pgDbUserIsSuper = $pgArrUserPriv[0]['rolsuper'];
+                    $pgDbUserCreateDb = $pgArrUserPriv[0]['rolcreatedb'];
+                    $pgDbUserInheritPriv = $pgArrUserPriv[0]['rolinherit'];
+
+                    // Get database owner
+                    $sql = @pg_query($dBconn,"select datdba from pg_catalog.pg_database where datname = '". $instance['configDBNAME'] ."'");
+                    $pgArrDbOwner = @pg_fetch_all($sql);                                                                                                                                                  
+                    $pgDbOwnerOID = $pgArrDbOwner[0]['datdba'];
+
+                    // Get extension table owner
+                    $sql = @pg_query($dBconn,"select tableowner from pg_catalog.pg_tables where tablename = '". $instance['configDBPREF'] ."extensions'");
+                    $pgArrTblOwner = @pg_fetch_all($sql);                                                                                                                                                 
+                    $pgExTblOwner = $pgArrTblOwner[0]['tableowner'];
+
+                    // Is user database owner?
+                    if ($pgDbUserOID == $pgDbOwnerOID) {
+                       $pgDbUserIsOwner = true;                                           
+                    } else {
+                       $pgDbUserIsOwner = false;                    
+                    }
+                    
+                    // Is user extension-table owner?
+                    if ($instance['configDBUSER'] == $pgExTblOwner) {
+                       $pgExtTblUserIsOwner = true;                                           
+                    } else {
+                       $pgExtTblUserIsOwner = false;                    
+                    }
+
+                    // Find the highest privilege
+                    if ($pgDbUserIsSuper == "t") {
+                       $pgDbUserPriv = $lang['FRCA_SUPU']; 
+                    }
+                    elseif ($pgDbUserIsOwner == "t") {
+                       $pgDbUserPriv = $lang['FRCA_DB_OWN'];
+                    }
+                    elseif ($pgExtTblUserIsOwner == "t") {
+                       $pgDbUserPriv = $lang['FRCA_TB_OWN'];
+                    }
+                    else {
+                       $pgDbUserPriv = $lang['FRCA_U'];                  
+                    }
 
 				if ($dBconn) {
 					$database['dbHOSTSERV']     = pg_parameter_status($dBconn, "server_version");       // SQL server version
 					$database['dbHOSTINFO']     = $lang['FRCA_U'];                                               // connection type to dB
-					$database['dbHOSTCLIENT']   = PGSQL_LIBPQ_VERSION_STR;                              // client library version
+					$database['dbHOSTCLIENT']   = PGSQL_LIBPQ_VERSION;                              // client library version
 					$database['dbHOSTDEFCHSET'] = pg_parameter_status($dBconn, "server_encoding");      // this is the hosts default character-set
 					$database['dbHOSTSTATS']    = $lang['FRCA_U'];                                               // latest statistics
 					$database['dbCHARSET']      =  pg_parameter_status($dBconn, "client_encoding");
@@ -424,19 +470,16 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 					$tables[$row['name']]['SIZE'] = sprintf('%.2f', $table_size);
 					$tables[$row['name']]['SIZE'] = $tables[$row['name']]['SIZE'] . ' KiB';
 					$database['dbSIZE'] += sprintf('%.2f', $table_size);
-
-					if ($showTables == '1') {
-						$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
-						$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
-						$tables[$row['name']]['CREATED']    = $lang['FRCA_U'];
-						$tables[$row['name']]['UPDATED']    = $lang['FRCA_U'];
-						$tables[$row['name']]['CHECKED']    = $lang['FRCA_U'];
-						$tables[$row['name']]['COLLATION']  = $database['dbCHARSET'];
-						$tables[$row['name']]['FRAGSIZE']   = $lang['FRCA_U'];
-						$tables[$row['name']]['MAXGROW']    = $lang['FRCA_U'];
-						$tables[$row['name']]['RECORDS']    = $cr['count'];
-						$tables[$row['name']]['AVGLEN']     = $lang['FRCA_U'];
-					}
+					$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
+					$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
+					$tables[$row['name']]['CREATED']    = $lang['FRCA_U'];
+					$tables[$row['name']]['UPDATED']    = $lang['FRCA_U'];
+					$tables[$row['name']]['CHECKED']    = $lang['FRCA_U'];
+					$tables[$row['name']]['COLLATION']  = $database['dbCHARSET'];
+					$tables[$row['name']]['FRAGSIZE']   = $lang['FRCA_U'];
+					$tables[$row['name']]['MAXGROW']    = $lang['FRCA_U'];
+					$tables[$row['name']]['RECORDS']    = $cr['count'];
+					$tables[$row['name']]['AVGLEN']     = $lang['FRCA_U'];
 				}
 
 				if ($database['dbSIZE'] > '1024') {
@@ -445,6 +488,18 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 					$database['dbSIZE']     = $database['dbSIZE'] . ' KiB';
 				}
 				$database['dbTABLECOUNT']   = $rowCount;
+				} else {
+				    $database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
+				    $database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB
+				    $database['dbHOSTPROTO']    = $lang['FRCA_U']; // server protocol type
+				    $database['dbHOSTCLIENT']   = $lang['FRCA_U']; // client library version
+				    $database['dbHOSTDEFCHSET'] = $lang['FRCA_U']; // this is the hosts default character-set
+				    $database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
+				    $database['dbCOLLATION']    = $lang['FRCA_U'];
+				    $database['dbCHARSET']      = $lang['FRCA_U'];
+				    $database['dbERROR']        = str_replace($instance['configDBPREF'],'#_', pg_last_error($dBconn));
+				}
+
 			} else {
 				$database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
 				$database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB
@@ -454,8 +509,9 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
 				$database['dbCOLLATION']    = $lang['FRCA_U'];
 				$database['dbCHARSET']      = $lang['FRCA_U'];
-				$database['dbERROR']        = $lang['FRCA_ECON'];
+				$database['dbERROR']        = $lang['FRCA_DI_PHP_FU'];
 			}
+
 		} else {
 			$database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
 			$database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB
@@ -465,9 +521,9 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 			$database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
 			$database['dbCOLLATION']    = $lang['FRCA_U'];
 			$database['dbCHARSET']      = $lang['FRCA_U'];
-			$database['dbERROR']        = $lang['FRCA_DI_PHP_FU'];
+			$database['dbERROR']        = $lang['FRCA_ECON'];     
 		}
-	} elseif ($instance['configDBTYPE'] == 'pgsql') {
+	} elseif ($instance['configDBTYPE'] == 'pgsql') { // pdo
 
 		try {
 			$dBconn = new \PDO("pgsql:host=" . $instance['configDBHOST'] . ";dbname=" . $instance['configDBNAME'], $instance['configDBUSER'], $instance['configDBPASS']);
@@ -492,9 +548,58 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$sql->execute();
 				$tmpldef = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$tmpldef = $sql->fetchAll();
-			} catch (PDOException $e) {
-				//
-			}
+
+				// Get database user privileges
+				$sql = $dBconn->prepare("select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
+				$sql->execute();                                                                                                                                                  
+				$pgArrUserPriv = $sql->setFetchMode(PDO::FETCH_ASSOC);
+				$pgArrUserPriv = $sql->fetchAll();
+				$pgDbUserOID = $pgArrUserPriv[0]['oid'];
+				$pgDbUserIsSuper = $pgArrUserPriv[0]['rolsuper'];
+				$pgDbUserCreateDb = $pgArrUserPriv[0]['rolcreatedb'];
+				$pgDbUserInheritPriv = $pgArrUserPriv[0]['rolinherit'];
+
+				// Get database owner
+				$sql = $dBconn->prepare("select datdba from pg_catalog.pg_database where datname = '". $instance['configDBNAME'] ."'");
+				$sql->execute();                                                                                                                                                  
+				$pgArrDbOwner = $sql->setFetchMode(PDO::FETCH_ASSOC);
+				$pgArrDbOwner = $sql->fetchAll();
+				$pgDbOwnerOID = $pgArrDbOwner[0]['datdba'];
+
+				// Get extension table owner
+				$sql = $dBconn->prepare("select tableowner from pg_catalog.pg_tables where tablename = '". $instance['configDBPREF'] ."extensions'");
+				$sql->execute();                                                                                                                                                  
+				$pgArrTblOwner = $sql->setFetchMode(PDO::FETCH_ASSOC);
+				$pgArrTblOwner = $sql->fetchAll();
+				$pgExTblOwner = $pgArrTblOwner[0]['tableowner'];
+
+				// Is user database owner?
+				if ($pgDbUserOID == $pgDbOwnerOID) {
+				    $pgDbUserIsOwner = true;                                           
+				} else {
+				    $pgDbUserIsOwner = false;                    
+				}
+
+				// Is user extension-table owner?
+				if ($instance['configDBUSER'] == $pgExTblOwner) {
+				    $pgExtTblUserIsOwner = true;                                           
+				} else {
+				    $pgExtTblUserIsOwner = false;                    
+				}
+ 
+				// Find the highest privilege
+				if ($pgDbUserIsSuper) {
+				    $pgDbUserPriv = $lang['FRCA_SUPU'];
+				}
+				elseif ($pgDbUserIsOwner) {
+				    $pgDbUserPriv = $lang['FRCA_DB_OWN'];
+				}
+				elseif ($pgExtTblUserIsOwner) {
+				    $pgDbUserPriv = $lang['FRCA_TB_OWN'];
+				}
+				else {
+				    $pgDbUserPriv = $lang['FRCA_U'];                   
+				}
 
 			if ($dBconn) {
 				$database['dbHOSTSERV']     = $dBconn->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));       // SQL server version
@@ -535,22 +640,16 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$tables[$row['name']]['SIZE'] = sprintf('%.2f', $table_size);
 				$tables[$row['name']]['SIZE'] = $tables[$row['name']]['SIZE'] . ' KiB';
 				$database['dbSIZE'] += sprintf('%.2f', $table_size);
-
- // @frostmakk 24.01.2021 This option missing ATM, so just set it.
-$showTables = '1';
-
-				if ($showTables == '1') {
-					$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
-					$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
-					$tables[$row['name']]['CREATED']    = $lang['FRCA_U'];
-					$tables[$row['name']]['UPDATED']    = $lang['FRCA_U'];
-					$tables[$row['name']]['CHECKED']    = $lang['FRCA_U'];
-					$tables[$row['name']]['COLLATION']  = $database['dbCOLLATION'];
-					$tables[$row['name']]['FRAGSIZE']   = $lang['FRCA_U'];
-					$tables[$row['name']]['MAXGROW']    = $lang['FRCA_U'];
-					$tables[$row['name']]['RECORDS']    = $cr['count'];
-					$tables[$row['name']]['AVGLEN']     = $lang['FRCA_U'];
-				}
+				$tables[$row['name']]['ENGINE']     = $lang['FRCA_U'];
+				$tables[$row['name']]['VERSION']    = $lang['FRCA_U'];
+				$tables[$row['name']]['CREATED']    = $lang['FRCA_U'];
+				$tables[$row['name']]['UPDATED']    = $lang['FRCA_U'];
+				$tables[$row['name']]['CHECKED']    = $lang['FRCA_U'];
+				$tables[$row['name']]['COLLATION']  = $database['dbCOLLATION'];
+				$tables[$row['name']]['FRAGSIZE']   = $lang['FRCA_U'];
+				$tables[$row['name']]['MAXGROW']    = $lang['FRCA_U'];
+				$tables[$row['name']]['RECORDS']    = $cr['count'];
+				$tables[$row['name']]['AVGLEN']     = $lang['FRCA_U'];
 			}
 
 			if ($database['dbSIZE'] > '1024') {
@@ -559,6 +658,19 @@ $showTables = '1';
 				$database['dbSIZE']     = $database['dbSIZE'] . ' KiB';
 			}
 			$database['dbTABLECOUNT']   = $rowCount;
+
+			} catch(PDOException $e) {
+				$database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
+				$database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB
+				$database['dbHOSTPROTO']    = $lang['FRCA_U']; // server protocol type
+				$database['dbHOSTCLIENT']   = $lang['FRCA_U']; // client library version
+				$database['dbHOSTDEFCHSET'] = $lang['FRCA_U']; // this is the hosts default character-set
+				$database['dbHOSTSTATS']    = $lang['FRCA_U']; // latest statistics
+				$database['dbCOLLATION']    = $lang['FRCA_U'];
+				$database['dbCHARSET']      = $lang['FRCA_U'];
+				$database['dbERROR']        = str_replace($instance['configDBPREF'],'#_', $e);
+			}
+
 		} else {
 			$database['dbHOSTSERV']     = $lang['FRCA_U']; // SQL server version
 			$database['dbHOSTINFO']     = $lang['FRCA_U']; // connection type to dB

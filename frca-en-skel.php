@@ -1216,7 +1216,10 @@ $lang = parse_ini_string ('
 	FRCA_DELNOTE_LN3 = "TODO String used but not defined."
 	FRCA_INS_8 = "TODO String used but not defined."
 
-
+    ; added by @frostmakk 26.01.2021
+	FRCA_SUPU = "Superuser"
+	FRCA_DB_OWN = "Database Owner"        
+	FRCA_TB_OWN = "Table Owner"
 
 ');
 
