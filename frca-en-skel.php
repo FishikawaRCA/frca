@@ -3960,7 +3960,7 @@ function recursive_array_search($needle, $haystack)
 
 		<?php } // end no translation message ?>
 
-
+		<?php $colSpan = '12'; ?>
 		<?php if ( defined('_FRCA_DEV') or defined('_FRCA_DBG') ) { ?>
 
 			<?php defined('_FRCA_DEV') and defined('_FRCA_DBG') ? $colSpan = '6' : $colSpan = '12'; ?>
