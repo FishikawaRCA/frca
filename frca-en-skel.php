@@ -3070,74 +3070,7 @@ unset($key, $show);
  * on really sites with 00's or 000's of badly configured folder modes. Limited to displaying
  * the first 10 only.
  */
-if (@$showElevated == '1') {
-
-	$dirCount = 0;
-
-	function getDirectory($path = '.', $level = 0)
-	{
-		global $elevated, $dirCount;
-
-		// directories to ignore when listing output. Many hosts
-		$ignore = array('.', '..');
-
-		// open the directory to the handle $dh
-		if (!$dh = @opendir($path)) {
-			// Bernard: if a folder is NOT readable, without this check we get endless loop
-			echo '<div class="alert" style="padding:25px;"><span class="alert-text" style="font-size:x-large;">' . $lang['FRCA_DIR_UNREADABLE'] . ': <b>' . $path . '</b></span></div>';
-			return FALSE;
-		}
-
-
-		// loop through the directory
-		while (false !== ($file = readdir($dh))) {
-
-			// check that this file is not to be ignored
-			if (!in_array($file, $ignore)) {
-
-				if ($dirCount < '10') { // 10 or more folder will cancel the processing
-
-					// its a directory, so we need to keep reading down...
-					if (is_dir("$path/$file")) {
-
-						$dirName = $path . '/' . $file;
-						$dirMode = substr(sprintf('%o', fileperms($dirName)), -3, 3);
-
-						// looking for --7 or -7- or -77 (default folder permissions are usually 755)
-						if (substr($dirMode, 1, 1) == '7' or substr($dirMode, 2, 1) == '7') {
-							$elevated['' . str_replace('./', '', $dirName) . '']['mode'] = $dirMode;
-
-							if (is_writable($dirName)) {
-								$elevated['' . str_replace('./', '', $dirName) . '']['writable'] = $lang['FRCA_Y'];
-							} else {  // custom ownership or setUiD/GiD in-effect
-								$elevated['' . str_replace('./', '', $dirName) . '']['writable'] = $lang['FRCA_N'];
-							}
-							$dirCount++;
-						}
-
-						// re-call this same function but on a new directory.
-						getDirectory("$path/$file", ($level + 1));
-					}
-				}
-			}
-		}
-		// Close the directory handle
-		closedir($dh);
-	}
-
-	// Fixed Warning: Illegal string offset 'mode' on line 1476
-	// Warning: Illegal string offset 'writable' on line 1477 - @PhilD 20-Sep-2012
-	if (isset($dirCount) == '0') {
-		$elevated['None'] = $lang['FRCA_NONE'];
-		$elevated['None']['mode'] = '-';
-		$elevated['None']['writable'] = '-';
-	}
-
-	// now call the function to read from the selected folder ( '.' current location of FPA script )
-	getDirectory('.');
-	ksort($elevated);
-} // end showElevated
-
+include_once ( 'frca-showelevated-perms.php');
 
 
 /**
@@ -3145,15 +3078,6 @@ if (@$showElevated == '1') {
  */
 include_once ( 'frca-databasetests.php' );
 
-/**
- * LiveCheck - FRCA
- * comment out _LIVE_CHECK_FRCA in settings to disable
- *
- * checks this FRCA version against the latest release on Github using cURL
- * - don't run if cURL disabled or not available
- *
- */
-//include_once ( 'frca-dofrcalive.php' );
 
 
 
