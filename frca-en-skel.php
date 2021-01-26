@@ -147,7 +147,7 @@ define('_RES_FRCA_COPYRIGHT_STMT', ' Copyright &copy; 2020-' . @date("Y") . ' Ru
  *
  */
 define ( '_FRCA_DEV', true );                                                  // developer-mode, displays raw frca & array data
-define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
+#define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
 
 
 
@@ -6312,6 +6312,11 @@ echo '</pre><hr>';
 
 
 <?php
+// TESTING getPDC  FAKE DEMO ERRORS
+getPDC( '1', 'A000' );
+getPDC( '1', '0052' );
+
+
 // need to get exension list before velCOMPARe
 // TODO: combine all the extensions, we only need one list and will save merging it later
 	// use the same function (above) to search for each extension type and load the results into it's associated array
@@ -6338,17 +6343,6 @@ echo '</pre><hr>';
 
 //include_once ('frca-getveldata.php');
 include_once ( 'frca-velcompare.php' );
-
-
-
-
-
-
-
-
-// TESTING getPDC  FAKE DEMO ERRORS
-getPDC( '1', 'A000' );
-getPDC( '1', '0052' );
 
 ?>
 
@@ -6779,7 +6773,7 @@ getPDC( '1', '0052' );
 									<?php
 									// TODO: make this into a function for all issue categories
 										/**
-										 * sort the problem/issue array by the priority (desc)
+										 * sort the problem/issue array by the severity
 										 *
 										 * a simple sort by severity value (1, 2, 3 & 4), but not considering the actual
 										 * order of any individual issue within the severity group
@@ -6790,7 +6784,7 @@ getPDC( '1', '0052' );
 											if ( $a['severity'] === $b['severity'] ) {
 												return 0;
 											}
-											return ( $b['severity'] < $a['severity'] ) ? 1 : -1;
+											return ( $a['severity'] < $b['severity'] ) ? -1 : 1;
 
 										} );
 
@@ -6925,6 +6919,7 @@ getPDC( '1', '0052' );
 
 																		} else {
 																			$riskLevel = $lang['FRCA_RISKUC'];
+																			//$riskLevel = '4';
 																		}
 																		echo $riskLevel;
 																	?>

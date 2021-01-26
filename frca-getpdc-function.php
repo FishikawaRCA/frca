@@ -49,7 +49,7 @@ function getPDC( $impactGroup, $problemCode ) {
 
 
 	if ( isset($problemError) ) {
-		$problemList[$impact][$problemCode]['severity'] = $lang['FRCA_RISKUC'];
+		$problemList[$impact][$problemCode]['severity'] = '3';
 		$problemList[$impact][$problemCode]['symptoms'][1] = $problemList[$impact][$problemCode]['symptoms'][1] .' for PDC: '. $problemError;
 	}
 
