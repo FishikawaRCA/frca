@@ -5757,6 +5757,19 @@ include_once ( 'frca-velcompare.php' );
 						$issuecountMINOR		= count($problemList['MINOR']);
 						$issuecountBESTPRACTICE	= count($problemList['BESTPRACTICE']);
 
+						$critTabActive			= '';
+						$critAriaSelected		= 'false';
+						$critTabContentActive	= '';
+						$warnTabActive			= '';
+						$warnAriaSelected		= 'false';
+						$warnTabContentActive	= '';
+						$infoTabActive			= '';
+						$infoAriaSelected		= 'false';
+						$infoTabContentActive	= '';
+						$bestTabActive			= '';
+						$bestAriaSelected		= 'false';
+						$bestTabContentActive	= '';
+
 						if ( $issuecountCRITICAL > 0 ) {
 							$critTabActive			= 'active';
 							$critAriaSelected		= 'true';
@@ -5776,20 +5789,6 @@ include_once ( 'frca-velcompare.php' );
 							$bestTabActive			= 'active';
 							$bestAriaSelected		= 'true';
 							$bestTabContentActive	= 'active show';
-
-						} else {
-							$critTabActive			= '';
-							$critAriaSelected		= 'false';
-							$critTabContentActive	= '';
-							$warnTabActive			= '';
-							$warnAriaSelected		= 'false';
-							$warnTabContentActive	= '';
-							$infoTabActive			= '';
-							$infoAriaSelected		= 'false';
-							$infoTabContentActive	= '';
-							$bestTabActive			= '';
-							$bestAriaSelected		= 'false';
-							$bestTabContentActive	= '';
 						}
 
 /*
