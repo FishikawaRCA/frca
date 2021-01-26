@@ -3129,8 +3129,8 @@ function recursive_array_search($needle, $haystack)
 		<title><?php echo _RES_FRCA . ' : v' . _RES_FRCA_VERSION . ' - ' . $lang['languagecode']; ?></title>
 
 		<?php
-			if ( file_exists('templates/cassiopeia/favicon.ico') ) {
-				$faviconPath	= './templates/cassiopeia/';
+			if ( file_exists('media/system/images/favicon.ico') ) {
+				$faviconPath = './media/system/images/';
 
 			} elseif ( file_exists('templates/protostar/favicon.ico') ) {
 				$faviconPath	= './templates/protostar/';
