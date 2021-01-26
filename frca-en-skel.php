@@ -1260,7 +1260,7 @@ if ( defined('_FRCA_LANG_DETECT')
 	 *
 	 * @RussW 26-january-2021
 	 */
-	if ( substr( $browserLanguage, 0, 2 ) == 'no' or substr( $browserLanguage, 0, 2 ) == 'nb' ) {
+	if ( substr( $browserLanguage, 0, 2 ) == 'no' or substr( $browserLanguage, 0, 2 ) == 'nn' ) {
 		// norwegian nynorsk > norwegian bokmål
 		$browserLanguage = 'nb';
 
