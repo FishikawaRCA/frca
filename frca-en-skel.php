@@ -6343,6 +6343,33 @@ echo '</pre><hr>';
 getPDC( '1', 'A000' );  // produces a 0000 PDC as it doesn't exist
 getPDC( '1', '0052' );
 getPDC( '1', '0053' );
+// INCLUDE FAKE VEL RECORD
+$problemList['CRITICAL']['V692'] = array(
+	'heading'		=> 'DemoVEL - J2Store (XSS Cross Site Scripting)',
+	'description'	=> htmlspecialchars_decode('Type: package<br />J2Store,3.9.x,XSS (Cross Site Scripting)
+	Update to 3.3.11  https://www.j2store.org/blog/general/j2store-3-3-11-released-with-improvements-and-a-security-fix.html'),
+	'category' 		=> 'vel',
+	'severity'		=> '2',
+	'symptoms'		=> array(
+		'0'	=> '1.2.1',
+		'1'	=> '3.3.09',
+		'2'	=> '-',
+		'3'	=> ''
+	),
+	'actions'		=> array(
+		'0'	=> 'Unknown',
+		'1'	=> '- / -',
+		'2'	=> 'https://j2store.org',
+		'3'	=> ''
+	),
+	'velstatus'		=> 'Live',
+	'velaccuracy'	=> '90',
+	'problemcode'	=> 'V692'
+);
+
+
+
+
 
 // need to get exension list before velCOMPARe
 // TODO: combine all the extensions, we only need one list and will save merging it later
