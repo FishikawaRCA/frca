@@ -6313,9 +6313,9 @@ echo '</pre><hr>';
 
 <?php
 // TESTING getPDC  FAKE DEMO ERRORS
-getPDC( '1', 'A000' );
+getPDC( '1', 'A000' );  // produces a 0000 PDC as it doesn't exist
 getPDC( '1', '0052' );
-
+getPDC( '1', '0053' );
 
 // need to get exension list before velCOMPARe
 // TODO: combine all the extensions, we only need one list and will save merging it later
@@ -6773,14 +6773,26 @@ include_once ( 'frca-velcompare.php' );
 									<?php
 									// TODO: make this into a function for all issue categories
 										/**
-										 * sort the problem/issue array by the severity
-										 *
-										 * a simple sort by severity value (1, 2, 3 & 4), but not considering the actual
-										 * order of any individual issue within the severity group
+										 * uasort the problem/issue array by the problem code first
+										 * - primarily to sort VEL entries by newest first using their VEL "id"
+										 *   (the larger the VEL id, the newer the entry)
+										 * - then by usort by severity, 1, 2, 3, 4 (& UC)
 										 *
 										 * added 20-dec-2020 @RussW
 										 */
+										uasort( $problemList['CRITICAL'], function( $a, $b ) {
+
+											// sort by problemcode number
+											if ( $a['problemcode'] === $b['problemcode'] ) {
+												return 0;
+											}
+											return ( $a['problemcode'] < $b['problemcode'] ) ? 1 : -1;
+
+										} );
+
 										usort( $problemList['CRITICAL'], function( $a, $b ) {
+
+											// sort by severity
 											if ( $a['severity'] === $b['severity'] ) {
 												return 0;
 											}
@@ -6789,14 +6801,6 @@ include_once ( 'frca-velcompare.php' );
 										} );
 
 									?>
-
-
-
-<?php
-//echo '<pre>';
-//var_dump($problemList['CRITICAL']);
-//echo '</pre>';
-?>
 
 
 
