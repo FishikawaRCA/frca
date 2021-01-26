@@ -1250,18 +1250,45 @@ if ( defined('_FRCA_LANG_DETECT')
 	 and ( isset($_SESSION['force_en'])
 	 and $_SESSION['force_en'] != 1 ) ) {
 
+	/**
+	 * Nominalise, if possible, any known frca unused or less common localisations
+	 *   eg: if the detected langauge is "no-NO" or "nn-NO" (Norwegian locaisations)
+	 *       frca redirects to the existing "nb" translation/locaistation, being the most common spoken/written version
+	 *
+	 * @RussW 26-january-2021
+	 */
+	if ( substr( $browserLanguage, 0, 2 ) == 'no' or substr( $browserLanguage, 0, 2 ) == 'nb' ) {
+		// norwegian nynorsk > norwegian bokmål
+		$browserLanguage = 'nb';
+
+	} elseif ( substr( $browserLanguage, 0, 2 ) == 'se' ) {
+		// northern sami > swedish
+		$browserLanguage = 'sv';
+
+	} elseif ( substr( $browserLanguage, 0, 2 ) == 'os' ) {
+		// ossetic > georgia
+		$browserLanguage = 'ka';
+
+	}
+
 
 	include_once ( 'frca-get-translation.php' );
 
-	// we got a translation file
+	/**
+	 * we have an frca translation
+	 * set the new language and merge the updated (translated) laguage strings in to the existing $lang Array
+	 * - overwriting any duplicate keys with the new language
+	 *   - leaving any untranslatioed string as "en" so we have a complete languageset
+	 *
+	 */
+
+
 	if ( isset($updatelang) and !empty($updatelang) ) {
 
-		// set the new language and merge the updated (translated) laguage strings in to the existing $lang Array
-		// - overwriting any duplicate keys with the new language
 		$lang = array_merge ( $lang, $updatelang );
 
 		// update the language code
-		$lang['languagecode'] = substr( $browserLanguage, 0, 2 );
+		$lang['languagecode'] = $browserLanguage;
 
 
 		// DEVELOPER MODE INFO
@@ -5789,18 +5816,18 @@ echo '</pre><hr>';
 
 						$confidence['JOOMLA']['SEF Rewrite Configured Correctly']	= 0;
 
-						$problemList['MINOR'][]			= array(
-							'HEADING'		=> 'SEF URLs are misconfigured.',
-							'DESCRIPTION'	=> 'You have Joomla! SEF URLs enabled but a .htaccess/web.config file could not be found.',
-							'CATEGORY' 		=> 'JOOMLA',
-							'SEVERITY'		=> '2',
-							'SYMPTOMS'		=> 'SEF URLs not working, Error 500 when clicking menu items/links',
-							'CAUSES'		=> array(
+						$problemList['MINOR']['0066']			= array(
+							'heading'		=> 'SEF URLs are misconfigured.',
+							'description'	=> 'You have Joomla! SEF URLs enabled but a .htaccess/web.config file could not be found.',
+							'category' 		=> 'JOOMLA',
+							'severity'		=> '2',
+							'symtoms'		=> 'SEF URLs not working, Error 500 when clicking menu items/links',
+							'causes'		=> array(
 								'0'	=> 'cause1',
 								'1'	=> 'cause2'
 							),
-							'EFFECTS'		=> 'user interface,navigation',
-							'ACTIONS'		=> array(
+							'effects'		=> 'user interface,navigation',
+							'actions'		=> array(
 								'0'	=> 'test1',
 								'1'	=> 'test2'
 							)
