@@ -738,7 +738,7 @@ if ( (file_exists('components/') and file_exists('modules/'))
  *
  * - if not found, set $instance['instanceCONFIGURED'] to 0
  *
- */
+ *
 if ( file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {
 
 		require_once ( 'configuration.php' );
@@ -765,9 +765,59 @@ if ( file_exists('configuration.php') and filesize('configuration.php') > '1536'
 	$instance['instanceCONFIGURED'] = 0;
 
 } // end joomla configuration detection
+*/
 
+// @frostmakk 27.01.2021     @RussW ***Please clean up the commented lines above if you approve this change.***
+// Determine exactly where the REAL configuration file is, it might not be the one in the "/" folder
+// At startup Joomla first check if there is a defines.php file in the root directory.(=override)
+// This file contain the real location of configuration.php.
+// A configuration.php file in root could be a decoy/leftover so we check the overridden path first.
+// If no override check for configuration.php in root.
 
+if (file_exists('defines.php')) {
+    $instance['definesEXIST'] = $lang['FRCA_Y'];
+    $cmsOverride = file_get_contents('defines.php');
+    preg_match('#JPATH_CONFIGURATION\s*\S*\s*[\'"](.*)[\'"]#', $cmsOverride, $cmsOVERRIDEPATH);
+    if (file_exists(@$cmsOVERRIDEPATH[1] . '\configuration.php') and filesize(@$cmsOVERRIDEPATH[1] . '\configuration.php') > '1536' ) {
+        $instance['configPATH'] = $cmsOVERRIDEPATH[1] . '\configuration.php';
+        $instance['instanceCONFIGURED'] = 1;
+    } else {
+        $instance['instanceCONFIGURED'] = 0;
+    }        
+} else {
+    $instance['definesEXIST'] = $lang['FRCA_N'];
+    if (file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {       
+        $instance['configPATH'] = 'configuration.php';
+        $instance['instanceCONFIGURED'] = 1;
+    } else {
+        $instance['instanceCONFIGURED'] = 0;
+    }
+} 
 
+// @frostmakk 27.01.2021
+// The only include file we don't have full control over is configuration.php
+// If the user has manually edit the file and removed a semicolon or other stupidities we risk a parse error.
+// There is no way to catch this, and it will result in a blank empty page.
+// By switching on error reporting during include, the user will at least be given some clue about what went wrong.
+
+if ($instance['instanceCONFIGURED'] == 1 ) {
+    ini_set( 'display_errors', 1 );
+	ini_set( 'error_reporting', -1 );
+
+    require_once ( $instance['configPATH'] );
+    $jConfig = new \JConfig();    
+
+    if ( defined('_FRCA_DBG') ) {
+	   ini_set( 'display_errors', 1 );
+	   ini_set( 'display_startup_errors', 1 );
+	   ini_set( 'error_reporting', -1 );
+    } else {
+	   ini_set( 'display_errors', 0 );
+	   ini_set( 'display_startup_errors', 0 );
+	   ini_set( 'error_reporting', 0 );
+    }             
+}
+        
 /**
  * see if we can redirect the the site to SSL
  *
@@ -2221,73 +2271,6 @@ if ($instance['platformVFILE'] != $lang['FRCA_N']) {
 }
 
 
-// TODO: do we need this? only support J2.5 and up now
-/**
- * is Joomla! installed/configured?
- *
- * determine exactly where the REAL configuration file is, it might not be the one in the "/" folder
- *
- */
-if (@$instance['cmsRELEASE'] == '1.0') {
-
-	if (file_exists('configuration.php')) {
-		$instance['configPATH'] = 'configuration.php';
-	}
-} elseif (@$instance['cmsRELEASE'] == '1.5') {
-	$instance['configPATH'] = 'configuration.php';
-} elseif (@$instance['cmsRELEASE'] >= '1.6') {
-
-	if (file_exists('defines.php') or file_exists('administrator\defines.php')) {
-		$instance['definesEXIST'] = $lang['FRCA_Y'];
-
-		// look for a 'defines' override file in the "/" folder.
-		if (file_exists('defines.php')) {
-
-			$cmsOverride = file_get_contents('defines.php');
-			preg_match('#JPATH_CONFIGURATION\s*\S*\s*[\'"](.*)[\'"]#', $cmsOverride, $cmsOVERRIDEPATH);
-
-			if (file_exists(@$cmsOVERRIDEPATH[1] . '\configuration.php')) {
-				$instance['configPATH'] = $cmsOVERRIDEPATH[1] . '\configuration.php';
-				$instance['configSiteDEFINE'] = $lang['FRCA_Y'];
-			} else {
-				$instance['configPATH'] = 'configuration.php';
-				$instance['configSiteDEFINE'] = $lang['FRCA_Y'];
-			}
-		} else {
-			$instance['configPATH'] = 'configuration.php';
-			$instance['configSiteDEFINE'] = $lang['FRCA_N'];
-		}
-
-		if (file_exists('administrator\defines.php')) {
-
-			$cmsAdminOverride = file_get_contents('administrator\defines.php');
-			preg_match('#JPATH_CONFIGURATION\s*\S*\s*[\'"](.*)[\'"]#', $cmsAdminOverride, $cmsADMINOVERRIDEPATH);
-
-			if (file_exists(@$cmsOVERRIDEPATH[1] . '\configuration.php')) {
-				$instance['configADMINPATH'] = $cmsADMINOVERRIDEPATH[1] . '\configuration.php';
-				$instance['configAdminDEFINE'] = $lang['FRCA_Y'];
-			} else {
-				$instance['configADMINPATH'] = 'configuration.php';
-				$instance['configAdminDEFINE'] = $lang['FRCA_Y'];
-			}
-		} else {
-			$instance['configAdminDEFINE'] = $lang['FRCA_N'];
-			$instance['configADMINPATH'] = 'configuration.php';
-		}
-
-		if (($instance['configPATH'] <> $instance['configADMINPATH']) or ($instance['configSiteDEFINE'] <> $instance['configAdminDEFINE'])) {
-			$instance['equalPATH'] = $lang['FRCA_N'];
-		} else {
-			$instance['equalPATH'] = $lang['FRCA_Y'];
-		}
-	} else {
-		$instance['configPATH'] = 'configuration.php';
-		$instance['definesEXIST'] = $lang['FRCA_N'];
-		$instance['equalPATH'] = $lang['FRCA_Y'];
-	}
-} else {
-	$instance['configPATH'] = 'configuration.php';
-}
 
 
 // check the configuration file (all versions)
