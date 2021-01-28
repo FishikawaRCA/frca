@@ -786,7 +786,7 @@ if (file_exists('defines.php')) {
     }        
 } else {
     $instance['definesEXIST'] = $lang['FRCA_N'];
-    if (file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {       
+    if (file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {
         $instance['configPATH'] = 'configuration.php';
         $instance['instanceCONFIGURED'] = 1;
     } else {
@@ -815,7 +815,7 @@ if ($instance['instanceCONFIGURED'] == 1 ) {
 	   ini_set( 'display_errors', 0 );
 	   ini_set( 'display_startup_errors', 0 );
 	   ini_set( 'error_reporting', 0 );
-    }             
+    }
 }
         
 /**
@@ -1261,14 +1261,14 @@ $lang = parse_ini_string ('
 	FRCA_EXT_3PD = "3rd Party"
 	FRCA_WIN_LOCALHOST = "Elevated permissions are expected on Windows localhost development environments."
 	FRCA_FPALATEST2 = "Download the latest FPA release (zip)"
-	FRCA_DASHBOARD_CONFIDENCE_NOTE = "TODO String used but not defined."
-	FRCA_DELNOTE_LN2 = "TODO String used but not defined."
-	FRCA_DELNOTE_LN3 = "TODO String used but not defined."
-	FRCA_INS_8 = "TODO String used but not defined."
+	FRCA_DASHBOARD_CONFIDENCE_NOTE = "TODO 1 String used but not defined."
+	FRCA_DELNOTE_LN2 = "TODO 2 String used but not defined."
+	FRCA_DELNOTE_LN3 = "TODO 3 String used but not defined."
+	FRCA_INS_8 = "TODO 4 String used but not defined."
 
     ; added by @frostmakk 26.01.2021
 	FRCA_SUPU = "Superuser"
-	FRCA_DB_OWN = "Database Owner"        
+	FRCA_DB_OWN = "Database Owner"
 	FRCA_TB_OWN = "Table Owner"
 
 ');
@@ -2409,10 +2409,7 @@ if (file_exists($instance['configPATH'])) {
 	 */
 
 	if ($instance['configVALIDFOR'] != $lang['FRCA_U']) {
-      //??why		ini_set('display_errors', 1);
-		//$includeconfig = require_once($instance['configPATH']);
-		//$config = new JConfig();
-		// now uses $jConfig at line: 719
+
 
 
 		$instance['configERRORREP'] = $jConfig->error_reporting;
@@ -4465,7 +4462,7 @@ echo '</pre><hr>';
 					if (@$instance['cmsRELEASE'] >= '4.0') {
 						$fpa['supportENV']['minPHP']        = '7.2.5';
 						$fpa['supportENV']['minSQL']        = '5.6.0';
-						$fpa['supportENV']['maxPHP']        = '8.0.0';
+						$fpa['supportENV']['maxPHP']        = '8.1.0';
 						$fpa['supportENV']['maxSQL']        = '9.0.0';
 						$fpa['supportENV']['badPHP'][0]     = '5.3.0';
 						$fpa['supportENV']['badPHP'][1]     = '5.3.1';
@@ -4478,8 +4475,21 @@ echo '</pre><hr>';
 					} elseif (@$instance['cmsRELEASE'] == '3.10') {
 						$fpa['supportENV']['minPHP']        = '5.3.10';
 						$fpa['supportENV']['minSQL']        = '5.1.0';
-						$fpa['supportENV']['maxPHP']        = '8.0.0';
+						$fpa['supportENV']['maxPHP']        = '8.1.0';
 						$fpa['supportENV']['maxSQL']        = '9.0.0';
+						$fpa['supportENV']['badPHP'][0]     = '5.3.0';
+						$fpa['supportENV']['badPHP'][1]     = '5.3.1';
+						$fpa['supportENV']['badPHP'][2]     = '5.3.2';
+						$fpa['supportENV']['badPHP'][3]     = '5.3.3';
+						$fpa['supportENV']['badPHP'][4]     = '5.3.4';
+						$fpa['supportENV']['badPHP'][5]     = '5.3.5';
+						$fpa['supportENV']['badPHP'][6]     = '5.3.6';
+						$fpa['supportENV']['badZND'][0]     = $lang['FRCA_NA'];
+					} elseif  (@$instance['cmsRELEASE'] == '3.9' and @$instance['cmsDEVLEVEL'] > '12') {
+						$fpa['supportENV']['minPHP']        = '5.3.10';
+						$fpa['supportENV']['minSQL']        = '5.1.0';
+						$fpa['supportENV']['maxPHP']        = '8.1.0';
+						$fpa['supportENV']['maxSQL']        = '8.5.0';
 						$fpa['supportENV']['badPHP'][0]     = '5.3.0';
 						$fpa['supportENV']['badPHP'][1]     = '5.3.1';
 						$fpa['supportENV']['badPHP'][2]     = '5.3.2';
@@ -4491,7 +4501,7 @@ echo '</pre><hr>';
 					} elseif (@$instance['cmsRELEASE'] == '3.9') {
 						$fpa['supportENV']['minPHP']        = '5.3.10';
 						$fpa['supportENV']['minSQL']        = '5.1.0';
-						$fpa['supportENV']['maxPHP']        = '7.5.0';
+						$fpa['supportENV']['maxPHP']        = '7.3.99';
 						$fpa['supportENV']['maxSQL']        = '8.5.0';
 						$fpa['supportENV']['badPHP'][0]     = '5.3.0';
 						$fpa['supportENV']['badPHP'][1]     = '5.3.1';
@@ -4504,7 +4514,7 @@ echo '</pre><hr>';
 					} elseif (@$instance['cmsRELEASE'] > '3.7' and @$instance['cmsDEVLEVEL'] > '2') {
 						$fpa['supportENV']['minPHP']        = '5.3.10';
 						$fpa['supportENV']['minSQL']        = '5.1.0';
-						$fpa['supportENV']['maxPHP']        = '7.5.0';
+						$fpa['supportENV']['maxPHP']        = '7.3.99';
 						$fpa['supportENV']['maxSQL']        = '5.8.0';
 						$fpa['supportENV']['badPHP'][0]     = '5.3.0';
 						$fpa['supportENV']['badPHP'][1]     = '5.3.1';
