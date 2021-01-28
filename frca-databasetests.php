@@ -393,7 +393,7 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 
                     // Get database user privileges
                     $sql = @pg_query($dBconn,"select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
-                    $pgArrUserPriv = @pg_fetch_all($sql);                                                                                                                                                 
+                    $pgArrUserPriv = @pg_fetch_all($sql);
                     $pgDbUserOID = $pgArrUserPriv[0]['oid'];
                     $pgDbUserIsSuper = $pgArrUserPriv[0]['rolsuper'];
                     $pgDbUserCreateDb = $pgArrUserPriv[0]['rolcreatedb'];
@@ -401,40 +401,40 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 
                     // Get database owner
                     $sql = @pg_query($dBconn,"select datdba from pg_catalog.pg_database where datname = '". $instance['configDBNAME'] ."'");
-                    $pgArrDbOwner = @pg_fetch_all($sql);                                                                                                                                                  
+                    $pgArrDbOwner = @pg_fetch_all($sql);
                     $pgDbOwnerOID = $pgArrDbOwner[0]['datdba'];
 
                     // Get extension table owner
                     $sql = @pg_query($dBconn,"select tableowner from pg_catalog.pg_tables where tablename = '". $instance['configDBPREF'] ."extensions'");
-                    $pgArrTblOwner = @pg_fetch_all($sql);                                                                                                                                                 
+                    $pgArrTblOwner = @pg_fetch_all($sql);
                     $pgExTblOwner = $pgArrTblOwner[0]['tableowner'];
 
                     // Is user database owner?
                     if ($pgDbUserOID == $pgDbOwnerOID) {
-                       $pgDbUserIsOwner = true;                                           
+                       $pgDbUserIsOwner = true;
                     } else {
-                       $pgDbUserIsOwner = false;                    
+                       $pgDbUserIsOwner = false;
                     }
-                    
+
                     // Is user extension-table owner?
                     if ($instance['configDBUSER'] == $pgExTblOwner) {
-                       $pgExtTblUserIsOwner = true;                                           
+                       $pgExtTblUserIsOwner = true;
                     } else {
-                       $pgExtTblUserIsOwner = false;                    
+                       $pgExtTblUserIsOwner = false;
                     }
 
                     // Find the highest privilege
                     if ($pgDbUserIsSuper == "t") {
-                       $pgDbUserPriv = $lang['FRCA_SUPU']; 
+                       $pgDbUserPriv = $lang['FRCA_SUPU'];
                     }
-                    elseif ($pgDbUserIsOwner == "t") {
+                    elseif ($pgDbUserIsOwner) {
                        $pgDbUserPriv = $lang['FRCA_DB_OWN'];
                     }
-                    elseif ($pgExtTblUserIsOwner == "t") {
+                    elseif ($pgExtTblUserIsOwner) {
                        $pgDbUserPriv = $lang['FRCA_TB_OWN'];
                     }
                     else {
-                       $pgDbUserPriv = $lang['FRCA_U'];                  
+                       $pgDbUserPriv = $lang['FRCA_U'];
                     }
 
 				if ($dBconn) {
@@ -551,7 +551,7 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 
 				// Get database user privileges
 				$sql = $dBconn->prepare("select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
-				$sql->execute();                                                                                                                                                  
+				$sql->execute();
 				$pgArrUserPriv = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$pgArrUserPriv = $sql->fetchAll();
 				$pgDbUserOID = $pgArrUserPriv[0]['oid'];
@@ -561,30 +561,30 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 
 				// Get database owner
 				$sql = $dBconn->prepare("select datdba from pg_catalog.pg_database where datname = '". $instance['configDBNAME'] ."'");
-				$sql->execute();                                                                                                                                                  
+				$sql->execute();
 				$pgArrDbOwner = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$pgArrDbOwner = $sql->fetchAll();
 				$pgDbOwnerOID = $pgArrDbOwner[0]['datdba'];
 
 				// Get extension table owner
 				$sql = $dBconn->prepare("select tableowner from pg_catalog.pg_tables where tablename = '". $instance['configDBPREF'] ."extensions'");
-				$sql->execute();                                                                                                                                                  
+				$sql->execute();
 				$pgArrTblOwner = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$pgArrTblOwner = $sql->fetchAll();
 				$pgExTblOwner = $pgArrTblOwner[0]['tableowner'];
 
 				// Is user database owner?
 				if ($pgDbUserOID == $pgDbOwnerOID) {
-				    $pgDbUserIsOwner = true;                                           
+				    $pgDbUserIsOwner = true;
 				} else {
-				    $pgDbUserIsOwner = false;                    
+				    $pgDbUserIsOwner = false;
 				}
 
 				// Is user extension-table owner?
 				if ($instance['configDBUSER'] == $pgExTblOwner) {
-				    $pgExtTblUserIsOwner = true;                                           
+				    $pgExtTblUserIsOwner = true;
 				} else {
-				    $pgExtTblUserIsOwner = false;                    
+				    $pgExtTblUserIsOwner = false;
 				}
  
 				// Find the highest privilege
@@ -598,7 +598,7 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				    $pgDbUserPriv = $lang['FRCA_TB_OWN'];
 				}
 				else {
-				    $pgDbUserPriv = $lang['FRCA_U'];                   
+				    $pgDbUserPriv = $lang['FRCA_U'];
 				}
 
 			if ($dBconn) {
