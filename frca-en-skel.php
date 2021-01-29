@@ -775,7 +775,7 @@ if ( file_exists('configuration.php') and filesize('configuration.php') > '1536'
 // If no override check for configuration.php in root.
 
 if (file_exists('defines.php')) {
-    $instance['definesEXIST'] = $lang['FRCA_Y'];
+    $instance['definesEXIST'] = true;
     $cmsOverride = file_get_contents('defines.php');
     preg_match('#JPATH_CONFIGURATION\s*\S*\s*[\'"](.*)[\'"]#', $cmsOverride, $cmsOVERRIDEPATH);
     if (file_exists(@$cmsOVERRIDEPATH[1] . '\configuration.php') and filesize(@$cmsOVERRIDEPATH[1] . '\configuration.php') > '1536' ) {
@@ -785,7 +785,7 @@ if (file_exists('defines.php')) {
         $instance['instanceCONFIGURED'] = 0;
     }        
 } else {
-    $instance['definesEXIST'] = $lang['FRCA_N'];
+    $instance['definesEXIST'] = false;
     if (file_exists('configuration.php') and filesize('configuration.php') > '1536' ) {
         $instance['configPATH'] = 'configuration.php';
         $instance['instanceCONFIGURED'] = 1;
