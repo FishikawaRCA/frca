@@ -8,6 +8,7 @@ $dbPrefLen = @strlen($instance['configDBPREF']);
 $postgresql = $lang['FRCA_N'];
 $confPrefTables = 0;
 $notconfPrefTables = 0;
+$assetProb = false;
 
 if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBCREDOK'] == $lang['FRCA_Y'] or $instance['configDBCREDOK'] == $lang['FRCA_PMISS'])) {
 	$database['dbDOCHECKS'] = $lang['FRCA_Y'];
@@ -54,6 +55,23 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 						$row = mysql_fetch_array($result);
 						$updSites[] = $row
 					);
+				}
+
+				// Get asset problem
+				$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where id = '0'";
+				$result = @mysql_query($sql);
+				if (mysql_num_rows($result) > 1) {
+				    $assetProb  = true;
+				}
+				$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where parent_id = '0'";
+				$result = @mysql_query($sql);
+				if (mysql_num_rows($result) > 1) {
+				    $assetProb  = true;
+				}
+				$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where level = '0'";
+				$result = @mysql_query($sql);
+				if (mysql_num_rows($result) > 1) {
+				    $assetProb  = true;
 				}
 			}
 
@@ -195,6 +213,29 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				}
 			}
 
+             // Get asset problem
+			$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where id = '0'";
+			$result = @$dBconn->query($sql);
+			if ($result <> false) {
+				if ($result->num_rows > 1) {
+                    $assetProb  = true;
+				}
+			}
+			$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where parent_id = '0'";
+			$result = @$dBconn->query($sql);
+			if ($result <> false) {
+				if ($result->num_rows > 1) {
+                    $assetProb  = true;
+				}
+			}
+			$sql = "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where level = '0'";
+			$result = @$dBconn->query($sql);
+			if ($result <> false) {
+				if ($result->num_rows > 1) {
+                    $assetProb  = true;
+				}
+			}
+
 			if ($dBconn) {
 				$database['dbHOSTSERV']     = @mysqli_get_server_info($dBconn);       // SQL server version
 				$database['dbHOSTINFO']     = @mysqli_get_host_info($dBconn);         // connection type to dB
@@ -323,6 +364,26 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$sql->execute();
 				$updSites = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$updSites = $sql->fetchAll();
+
+                // Get asset problem
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where id = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where parent_id = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where level = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
 			} catch (PDOException $e) {
 				//
 			}
@@ -427,6 +488,23 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
                     // Get update sites enabled status
                     $sql = @pg_query($dBconn, "select name,type,enabled from " . $instance['configDBPREF'] . "update_sites");
                     $updSites = @pg_fetch_all($sql);
+
+                    // Get asset problem
+                    $sql = @pg_query($dBconn, "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where id = '0'");
+                    $countAsset = pg_num_rows($sql);
+                    if ($countAsset > 1) {
+                        $assetProb  = true;
+                    }
+                    $sql = @pg_query($dBconn, "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where parent_id = '0'");
+                    $countAsset = pg_num_rows($sql);
+                    if ($countAsset > 1) {
+                        $assetProb  = true;
+                    }
+                    $sql = @pg_query($dBconn, "select id,parent_id,level from " . $instance['configDBPREF'] . "assets where level = '0'");
+                    $countAsset = pg_num_rows($sql);
+                    if ($countAsset > 1) {
+                        $assetProb  = true;
+                    }
 
                     // Get database user privileges
                     $sql = @pg_query($dBconn,"select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
@@ -592,6 +670,26 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$sql->execute();
 				$updSites = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$updSites = $sql->fetchAll();
+
+                // Get asset problem
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where id = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where parent_id = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
+				$sql = $dBconn->prepare("select COUNT(*) from " . $instance['configDBPREF'] . "assets where level = '0'");
+				$sql->execute();
+				$countAsset = $sql->fetchColumn();
+				if ($countAsset > 1) {
+                    $assetProb  = true;
+				}
 
 				// Get database user privileges
 				$sql = $dBconn->prepare("select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
