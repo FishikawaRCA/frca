@@ -21,27 +21,38 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 			$database['dbERROR'] = mysql_errno() . ':' . mysql_error();
 
 			@mysql_select_db($instance['configDBNAME'], $dBconn);
+
+            // Get extensions enabled status
 			$sql    = "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'";
 			$result = @mysql_query($sql);
-
 			if ($result <> false) {
 				if (mysql_num_rows($result) > 0) {
-
 					for (
 						$exset = array();
 						$row = mysql_fetch_array($result);
 						$exset[] = $row
 					);
 				}
+
+                // Get templates enabled status
 				$sql = "select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template";
 				$result = @mysql_query($sql);
-
 				if (mysql_num_rows($result) > 0) {
-
 					for (
 						$tmpldef = array();
 						$row = mysql_fetch_array($result);
 						$tmpldef[] = $row
+					);
+				}
+
+                // Get update sites enabled status
+				$sql = "select name,type,enabled from " . $instance['configDBPREF'] . "update_sites";
+				$result = @mysql_query($sql);
+				if (mysql_num_rows($result) > 0) {
+					for (
+						$updSites = array();
+						$row = mysql_fetch_array($result);
+						$updSites[] = $row
 					);
 				}
 			}
@@ -144,11 +155,11 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 			$dBconn              = @new \mysqli($instance['configDBHOST'], $instance['configDBUSER'], $instance['configDBPASS'], $instance['configDBNAME']);
 			$database['dbERROR'] = mysqli_connect_errno() . ':' . mysqli_connect_error();
             if ($database['dbERROR'] == '0:') {
+
+             // Get extensions enabled status
 			$sql                 = "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'";
 			$result              = @$dBconn->query($sql);
-
 			if ($result <> false) {
-
 				if ($result->num_rows > 0) {
 					for (
 						$exset = array();
@@ -157,16 +168,29 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 					);
 				}
 			}
+
+             // Get templates enabled status
 			$sql = "select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template";
 			$result = @$dBconn->query($sql);
-
 			if ($result <> false) {
-
 				if ($result->num_rows > 0) {
 					for (
 						$tmpldef = array();
 						$row = $result->fetch_assoc();
 						$tmpldef[] = $row
+					);
+				}
+			}
+
+             // Get update sites enabled status
+			$sql = "select name,type,enabled from " . $instance['configDBPREF'] . "update_sites";
+			$result = @$dBconn->query($sql);
+			if ($result <> false) {
+				if ($result->num_rows > 0) {
+					for (
+						$updSites = array();
+						$row = $result->fetch_assoc();
+						$updSites[] = $row
 					);
 				}
 			}
@@ -282,16 +306,23 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 		if ($dBconn) {
 			$database['dbERROR'] = '0:';
 
-			try {
+			try { // Get extensions enabled status 
 				$sql = $dBconn->prepare("select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'");
 				$sql->execute();
 				$exset = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$exset = $sql->fetchAll();
 
+                // Get templates enabled status
 				$sql = $dBconn->prepare("select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template");
 				$sql->execute();
 				$tmpldef = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$tmpldef = $sql->fetchAll();
+
+                // Get update sites enabled status
+				$sql = $dBconn->prepare("select name,type,enabled from " . $instance['configDBPREF'] . "update_sites");
+				$sql->execute();
+				$updSites = $sql->setFetchMode(PDO::FETCH_ASSOC);
+				$updSites = $sql->fetchAll();
 			} catch (PDOException $e) {
 				//
 			}
@@ -384,12 +415,18 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 				$database['dbERROR'] = '0:';
 				$postgresql = $lang['FRCA_Y'];
 
+                // Get extensions enabled status
 				$sql = @pg_query($dBconn, "select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'");
 				if ($sql){
                     $exset = @pg_fetch_all($sql);
 
+                    // Get templates enabled status
                     $sql = @pg_query($dBconn, "select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template");
                     $tmpldef = @pg_fetch_all($sql);
+
+                    // Get update sites enabled status
+                    $sql = @pg_query($dBconn, "select name,type,enabled from " . $instance['configDBPREF'] . "update_sites");
+                    $updSites = @pg_fetch_all($sql);
 
                     // Get database user privileges
                     $sql = @pg_query($dBconn,"select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");
@@ -538,16 +575,23 @@ if ($instance['instanceCONFIGURED'] == $lang['FRCA_Y'] and ($instance['configDBC
 			$database['dbERROR'] = '0:';
 			$postgresql = $lang['FRCA_Y'];
 
-			try {
+			try { // Get extensions enabled status
 				$sql = $dBconn->prepare("select name,type,enabled from " . $instance['configDBPREF'] . "extensions where type='plugin' or type='component' or type='module' or type='template' or type='library'");
 				$sql->execute();
 				$exset = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$exset = $sql->fetchAll();
 
+                // Get templates enabled status
 				$sql = $dBconn->prepare("select template, max(home) as home from " . $instance['configDBPREF'] . "template_styles group by template");
 				$sql->execute();
 				$tmpldef = $sql->setFetchMode(PDO::FETCH_ASSOC);
 				$tmpldef = $sql->fetchAll();
+
+                // Get update sites enabled status
+				$sql = $dBconn->prepare("select name,type,enabled from " . $instance['configDBPREF'] . "update_sites");
+				$sql->execute();
+				$updSites = $sql->setFetchMode(PDO::FETCH_ASSOC);
+				$updSites = $sql->fetchAll();
 
 				// Get database user privileges
 				$sql = $dBconn->prepare("select oid,rolsuper,rolcreatedb,rolinherit from pg_catalog.pg_roles where rolname = '". $instance['configDBUSER'] ."'");

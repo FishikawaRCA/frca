@@ -147,7 +147,7 @@ define('_RES_FRCA_COPYRIGHT_STMT', ' Copyright &copy; 2020-' . @date("Y") . ' Ru
  *
  */
 define ( '_FRCA_DEV', true );                                                  // developer-mode, displays raw frca & array data
-#define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
+define ( '_FRCA_DBG', true );                                                  // debug-mode, enables php display_errors
 
 
 
@@ -1270,6 +1270,9 @@ $lang = parse_ini_string ('
 	FRCA_SUPU = "Superuser"
 	FRCA_DB_OWN = "Database Owner"
 	FRCA_TB_OWN = "Table Owner"
+
+    ; added by @frostmakk 30.01.2021
+    FRCA_ECON = "Connection error"
 
 ');
 
