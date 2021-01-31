@@ -3879,8 +3879,8 @@ function recursive_array_search($needle, $haystack)
 
 			// we make use of "variable, variables" to cater for different json data being retrieved and output to frca
 			$testARRAY = $type.'testARRAY';
-			$$testARRAY[] = 'test one';
-			$$testARRAY[] = 'test two';
+			${$testARRAY}[] = 'test one';
+			${$testARRAY}[] = 'test two';
 
 			// NOTE: this returns a variable/array name reflecting the "type" paramater
 			// EG: $$testARRAY will equal;
@@ -4262,7 +4262,7 @@ print_r(headers_list());
 <pre>
 <?php
 //print_r(get_resources());
-print_r(get_resources('stream'));
+//print_r(get_resources('stream'));
 ///print_r (checkdnsrr(idn_to_ascii('www.hotmango.me'), 'TXT'));
 ?>
 </pre>
